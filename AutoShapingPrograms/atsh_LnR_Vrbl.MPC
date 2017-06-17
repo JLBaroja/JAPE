@@ -99,7 +99,7 @@ S1,
 	set F = 0;
 	set T = 0;
 	set P = 5000;
-	set N = 20; \ Sets number of pairings in session
+	set N = 10; \ Sets number of pairings in session
 	set V(0) = 0;
 	set V(1) = 0;
 	set V(2) = 0;
