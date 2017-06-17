@@ -15,10 +15,10 @@ def expand_MPC(output_file,interval_list,probability_left):
 	with open(output_file,'w') as modified:
 		modified.writelines(data)
 
-expand_MPC('atsh_LnR_Cnstnt.MPC','LIST I = 20','P = 5000')
+expand_MPC('atsh_LnR_Cnstnt.MPC','LIST I = 45','P = 5000')
 expand_MPC('atsh_LnR_Vrbl.MPC','LIST I = 20,25,30,35,40,45,50,55,60,65,70','P = 5000')
-expand_MPC('atsh_L_Cnstnt.MPC','LIST I = 20','P = 10000')
+expand_MPC('atsh_L_Cnstnt.MPC','LIST I = 45','P = 10000')
 expand_MPC('atsh_L_Vrbl.MPC','LIST I = 20,25,30,35,40,45,50,55,60,65,70','P = 10000')
-expand_MPC('atsh_R_Cnstnt.MPC','LIST I = 20','P = 0')
+expand_MPC('atsh_R_Cnstnt.MPC','LIST I = 45','P = 0')
 expand_MPC('atsh_R_Vrbl.MPC','LIST I = 20,25,30,35,40,45,50,55,60,65,70','P = 0')
 

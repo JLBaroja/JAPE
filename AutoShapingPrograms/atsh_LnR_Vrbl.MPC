@@ -7,9 +7,9 @@
 \ and it can also separate key-food pairings by random or constant intervals.
 
 \ Program main parameters:
-\ P; controls the probability of selecting each key in each paring; defined in line 101 and used in line 128.
-\ I; list of possible intervals between pairings; defined in line 58 and used in line 122.
-\ N; number of pairings per session; defined in line 102 and used in line 120.
+\ P; controls the probability of selecting each key in each paring; defined in line 101 and used in line 126.
+\ I; list of possible intervals between pairings; defined in line 58 and used in line 123.
+\ N; number of pairings per session; defined in line 102 and used in line 121.
 
 \ Lab Configuration
 \ inputs
@@ -58,8 +58,8 @@
 LIST I = 20,25,30,35,40,45,50,55,60,65,70
 
 \arrays
-DIM A = 1000 \ Real time events
-DIM Z = 1000 \ Real time z-pulses
+DIM A = 10000 \ Real time events
+DIM Z = 500 \ Real time z-pulses
 DIM V = 5 \ Counters
 	\ V(0) = Number presentations left_light
 	\ V(1) = Number responses left_key
@@ -99,7 +99,7 @@ S1,
 	set F = 0;
 	set T = 0;
 	set P = 5000;
-	set N = 10; \ Sets number of pairings in session
+	set N = 60; \ Sets number of pairings in session
 	set V(0) = 0;
 	set V(1) = 0;
 	set V(2) = 0;
@@ -107,6 +107,7 @@ S1,
 	set V(4) = 0;
 	set V(5) = 0;
 	add E; set A(E-1)=T+.01; \ Record session start
+	off^chamber_light; add E; set A(E-1)=T+0.35;
 	Z4; add F; set Z(F-1)=T+0.004 ---> S2 
 
 S2,

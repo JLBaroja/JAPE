@@ -1,5 +1,5 @@
 rm(list=ls())
-data_folder <- '/home/lab25/Documents/Luis/JAPE/Data/'
+data_folder <- '~/Documents/Luis/JAPE/Data/'
 
 setwd(data_folder)
 realtime <- read.csv('atsh_test.csv')
