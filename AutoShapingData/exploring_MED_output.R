@@ -2,7 +2,7 @@ rm(list=ls())
 data_folder <- '~/Documents/Luis/JAPE/Data/'
 
 setwd(data_folder)
-realtime <- read.csv('atsh_test.csv')
+realtime <- read.csv('autoshaping_data.csv')
 
 add_event <- function(h_event,
                       y_coord,
@@ -42,8 +42,8 @@ interval_event <- function(event_name,
 
 
 dev.off()
-x11(width=20,height=10)
-layout(1:6)
+x11(width = 20, height = 10)
+layout(matrix(1:8,ncol=2))
 for(df in unique(realtime$data_file)){
   rt <- subset(realtime,data_file==df)
   y_lims <- c(-2,1)
