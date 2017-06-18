@@ -1,5 +1,6 @@
 rm(list=ls())
-data_folder <- '~/Documents/Luis/JAPE/Data/'
+# data_folder <- '~/Documents/Luis/JAPE/Data/'
+data_folder <- '~/Documents/Research/JAPE/AutoShapingData/'
 
 setwd(data_folder)
 realtime <- read.csv('autoshaping_data.csv')
@@ -37,7 +38,7 @@ interval_event <- function(event_name,
   add_event(name_on,y_coord=y_coord+bw*.8,pch=25,bg=color) 
   add_event(name_off,y_coord=y_coord-bw*.8,pch=24,bg=color) 
   
-  text(-max(rt$session_time)*.01,y_coord,event_name,adj=1,cex=1.5)
+  text(-max(rt$session_time)*.01,y_coord,event_name,adj=1,cex=1,font=2)
 }
 
 
@@ -48,22 +49,23 @@ for(df in unique(realtime$data_file)){
   rt <- subset(realtime,data_file==df)
   y_lims <- c(-2,1)
   par(bg='#cccccc',col.axis='#555555',fg='#333333',
-      mar=c(1,2,1,1))
+      mar=c(1,0.5,1,1))
   plot(0,type='n',
-       xlim=c(-max(realtime$session_time)*.04,
-              max(realtime$session_time)),
+       xlim=c(-max(realtime$session_time)*.06,
+              max(realtime$session_time)*1.075),
        ylim=c(-2,.6),
-       ann=F,axes=T)
-  mtext(df,4,line=-3,font=2)
+       ann=F,axes=F)
+  mtext(df,4,line=-4,font=2)
+  mtext(paste('Box:',unique(rt$box)),4,line=-2,font=2)
   axis(1,at=0:ceiling(max(rt$session_time)),cex.axis=.6)
   
-  interval_event('central_light',0,color = '#33cc00cc')  
+  interval_event('central_light',0,color = '#33cc0066')  
   add_event('resp_central_key',0,pch=4,cex=1.5,col='#ee0000')
-  interval_event('left_light',0.4,color = '#33cc00cc')  
+  interval_event('left_light',0.4,color = '#33cc0066')  
   add_event('resp_left_key',0.4,pch=4,cex=1.5,col='#ee0000')
-  interval_event('right_light',-0.4,color = '#33cc00cc')  
+  interval_event('right_light',-0.4,color = '#33cc0066')  
   add_event('resp_right_key',-0.4,pch=4,cex=1.5,col='#ee0000')
-  interval_event('feeder',-.85,color = '#ee7700cc')  
+  interval_event('feeder',-.85,color = '#ee770066')  
   
   z_labels <- c('(to left light)',
                 '(to right light)',
@@ -79,10 +81,10 @@ for(df in unique(realtime$data_file)){
          paste(z_labels[zz],ev_nm),adj=1,cex=1)
   }
   
-  segments(x0=0:ceiling(max(rt$session_time)),
-           x1=0:ceiling(max(rt$session_time)),
-           y0=rep(y_lims[1],ceiling(tail(rt$session_time,1))),
-           y1=rep(y_lims[2],ceiling(tail(rt$session_time,1))),lwd=.5,col='#0088ee22')
+  # segments(x0=0:ceiling(max(rt$session_time)),
+  #          x1=0:ceiling(max(rt$session_time)),
+  #          y0=rep(y_lims[1],ceiling(tail(rt$session_time,1))),
+  #          y1=rep(y_lims[2],ceiling(tail(rt$session_time,1))),lwd=.5,col='#0088ee22')
   
 }
 
