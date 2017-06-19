@@ -136,7 +136,8 @@ def data_frame_merger(extracting_function,name_text_file):
 	files=os.listdir('.')
 	global_df=pd.DataFrame()
 	for archive in range(len(files)):
-		# Trial-level and real-time-level functions work with a single argument now
+		print files[archive]
+		#if files[archive]!='p736_s02_atsh':
 		frames=[global_df,extracting_function(files[archive])]
 		global_df=pd.concat(frames)
 	os.chdir('..')
