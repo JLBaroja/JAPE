@@ -45,7 +45,7 @@ interval_event <- function(event_name,
 # birds <- unique(realtime$subject)
 birds <- c('p051','p510','p054','p530',
            'p056','p736','p004','p138')
-sessions <- rep(c('s01','s02'),each=length(birds))
+sessions <- rep(c('s01','s02','s03'),each=length(birds))
 data_files <- paste(birds,sessions,'atsh',sep='_')
 
 # dev.off()

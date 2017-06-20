@@ -52,24 +52,30 @@
 \F: index of array Z (real time z-pulses)
 
 \lists
-LIST L = 5000,2500 \ Probability reinforcer scheduled in left at each second 
-LIST R = 1000,8000 \ Same probability for right
+LIST L = 5000,2500,2000 \ Probability reinforcer scheduled in left at each second 
+LIST R = 1000,8000,5000 \ Same probability for right
+\\ Line for LIST M
+\\ Line for LIST N
+\\ Line for LIST D
 
 \arrays
 DIM A = 10000 \ Real time events
-DIM Z = 500 \ Real time z-pulses
+\DIM Z = 500 \ Real time z-pulses
 DIM C = 5 \ Counters
 	\ C(0) = Number responses central_key
 	\ C(1) = Number responses left_key
 	\ C(2) = Number responses right_key
 	\ C(3) = Number of reinforcers from left
 	\ C(4) = Number of reinforcers from right
+DIM V = 1 \ Change points LEFT
+	\ V(0) = Second of first change 
+	\ V(1) = Second of second change
+DIM W = 1 \ Change points RIGHT
+	\ W(0) = Second of first change 
+	\ W(1) = Second of second change
 
 \ Z-pulses
-\ Z1: 
-\ Z2: 
-\ Z3: 
-\ Z4: 
+\ No Z-pulses so far
 
 \event key (real Time array)
 \T.01: Session start
@@ -87,7 +93,6 @@ DIM C = 5 \ Counters
 \T.33: Right light OFF
 \T.34: Feeder OFF
 \T.35: Chamber light OFF 
-
 \T.54: Feeder ON from LEFT
 \T.64: Feeder ON from RIGHT
 \T.74: Reinforcer scheduled in LEFT
@@ -106,12 +111,16 @@ S1,
 	set C(2) = 0;
 	set C(3) = 0;
 	set C(4) = 0;
+	RANDI V(0) = M; \ Schedule first change
+	RANDI V(1) = N;	\ Schedule second change
+	set W(0) = V(0)+D(0);
+	set W(1) = V(1)+D(1);
 	add E; set A(E-1)=T+.01; \ Session starts
 	off^chamber_light; add E; set A(E-1)=T+0.35 ---> S2
 
 S2,
-8": on^left_light; on^right_light; 
-	Z1; add F; set Z(F-1)=T+0.001 ---> S3
+8": on^left_light; on^right_light ---> S3 
+\	Z1; add F; set Z(F-1)=T+0.001 ---> S3
 
 S3,
 0.01": add T;
@@ -121,50 +130,70 @@ S3,
 
 
 
-S.S.2, \ LEFT key
+S.S.2, \ Updating LEFT schedule
 S1,
-#Z1: ---> S2
+#START: ---> S2
 
 S2,
-1": WITHPI=L(0)[@scheduled,@notscheduled]
+0.5": if T<V(0)*100[@before_first,@after_first]
+	@before_first: set I = 0 ---> SX
+	@after_first: if T<V(1)*100[@before_second,@after_second]
+			@before_second: set I = 1 ---> SX
+			@after_second: set I = 2 ---> SX
+
+
+
+S.S.3, \ Updating LEFT schedule
+S1,
+#START: ---> S2
+
+S2,
+0.5": if T<W(0)*100[@before_first,@after_first]
+	@before_first: set J = 0 ---> SX
+	@after_first: if T<W(1)*100[@before_second,@after_second]
+			@before_second: set J = 1 ---> SX
+			@after_second: set J = 2 ---> SX
+
+
+
+S.S.4, \ LEFT key
+S1,
+#START: ---> S2
+
+S2,
+1": WITHPI=L(I)[@scheduled,@notscheduled]
 	@scheduled: add E; set A(E-1)=T+0.74 ---> S3 \ Reinforce next response in LEFT
 	@notscheduled: ---> SX
 
 S3,
 #R^left_key: add C(3); add E; set A(E-1)=T+0.54; \ Reinforcer from LEFT 
-	Z3; add F; set Z(F-1)=T+0.003 ---> S2 \ Consider to S1 to prevent scheduling during feeder on
-	
+	on^feeder; add E; set A(E-1)=T+0.24 ---> S4
+
+S4,
+3": off^feeder; add E; set A(E-1)=T+0.34 ---> S2
 
 
-S.S.3, \ RIGHT key
+
+S.S.5, \ RIGHT key
 S1,
-#Z1: ---> S2
+#START: ---> S2
 
 S2,
-1": WITHPI=R(0)[@scheduled,@notscheduled]
+1": WITHPI=R(J)[@scheduled,@notscheduled]
 	@scheduled: add E; set A(E-1)=T+0.84 ---> S3 \ Reinforce next response in RIGHT
 	@notscheduled: ---> SX
 
 S3,
 #R^right_key: add C(4); add E; set A(E-1)=T+0.64; \ Reinforcer from RIGHT 
-	Z3; add F; set Z(F-1)=T+0.003 ---> S2 \ Consider to S1 to prevent scheduling during feeder on
-	
+	on^feeder; add E; set A(E-1)=T+0.24 ---> S4
 
-
-\ Feeder
-S.S.4, 
-S1, 
-#Z3: on^feeder; add E; set A(E-1)=T+0.24 ---> S2
-
-S2,
-3": off^feeder; add E; set A(E-1)=T+0.34;
-	add C(3) ---> S1
-\	Z1; add F; set Z(F-1)=T+0.001 ---> S1 \ To reset both alternatives (not good idea though)
+S4,
+3": off^feeder; add E; set A(E-1)=T+0.34 ---> S2
 
 
 
 \ Recording all LEFT responses
-S.S.5,
+S.S.6,
 S1,
 #R^left_key: add E; set A(E-1)=T+0.12;
 	 add C(1); SHOW 3, resp_left, C(1) ---> SX
@@ -172,7 +201,7 @@ S1,
 
 
 \ Recording all RIGHT responses
-S.S.6,
+S.S.7,
 S1,
 #R^right_key: add E; set A(E-1)=T+0.13;
 	add C(2); SHOW 4, resp_right, C(2) ---> SX
@@ -180,7 +209,7 @@ S1,
 
  
 \ Recording all CEN responses
-S.S.7,
+S.S.8,
 S1,
 #R^central_key: add E; set A(E-1)=T+0.11;
 	add C(0); SHOW 5, resp_central, C(0) ---> SX
