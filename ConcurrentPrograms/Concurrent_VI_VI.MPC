@@ -47,13 +47,14 @@
 ^chamber_light=14
 
 \variables
-\T: session time (sec/100)
+\T: session real time (sec/100)
 \E: index of array A (real time events)
 \F: index of array Z (real time z-pulses)
+\S: session length
 
 \lists
-LIST L = 5000,2500,2000 \ Probability reinforcer scheduled in left at each second 
-LIST R = 1000,8000,5000 \ Same probability for right
+\\ Line for LIST L
+\\ Line for LIST R
 \\ Line for LIST M
 \\ Line for LIST N
 \\ Line for LIST D
@@ -106,6 +107,7 @@ S1,
 #START: set E = 0;
 	set F = 0;
 	set T = 0;
+\\ Line for variable S
 	set C(0) = 0;
 	set C(1) = 0;
 	set C(2) = 0;
@@ -115,6 +117,10 @@ S1,
 	RANDI V(1) = N;	\ Schedule second change
 	set W(0) = V(0)+D(0);
 	set W(1) = V(1)+D(1);
+	SHOW 6, 1st_CP_left, V(0);
+	SHOW 7, 2nd_CP_left, V(1);
+	SHOW 8, 1st_CP_right, W(0);
+	SHOW 9, 2nd_CP_right, W(1);
 	add E; set A(E-1)=T+.01; \ Session starts
 	off^chamber_light; add E; set A(E-1)=T+0.35 ---> S2
 
@@ -124,7 +130,7 @@ S2,
 
 S3,
 0.01": add T;
-	if T=12000[@finish,@keepgoing]
+	if T=S[@finish,@keepgoing]
 	@finish: add E; set A(E-1)=T+0.02 ---> STOPABORTFLUSH \Session finishes
 	@keepgoing: ---> SX
 
@@ -143,7 +149,7 @@ S2,
 
 
 
-S.S.3, \ Updating LEFT schedule
+S.S.3, \ Updating RIGHT schedule
 S1,
 #START: ---> S2
 
