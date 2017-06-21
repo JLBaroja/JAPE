@@ -220,3 +220,20 @@ S1,
 #R^central_key: add E; set A(E-1)=T+0.11;
 	add C(0); SHOW 5, resp_central, C(0) ---> SX
 
+
+
+S.S.9,
+S1,
+#START: ---> S2
+
+S2,
+1": SHOW 11, time_left, (S-T)/100;
+	SHOW 21, vi_left_1, 1/(L(0)/10000);
+	SHOW 22, vi_left_2, 1/(L(1)/10000);
+	SHOW 23, vi_left_3, 1/(L(2)/10000);
+	SHOW 26, vi_right_1, 1/(R(0)/10000);
+	SHOW 27, vi_right_2, 1/(R(1)/10000);
+	SHOW 28, vi_right_3, 1/(R(2)/10000);
+	SHOW 31, operating_vi_left,1/(L(I)/10000);
+	SHOW 36, operating_vi_right,1/(R(J)/10000) ---> SX
+
