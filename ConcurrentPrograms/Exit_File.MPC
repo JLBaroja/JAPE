@@ -117,10 +117,10 @@ S1,
 	RANDI V(1) = N;	\ Schedule second change
 	set W(0) = V(0)+D(0);
 	set W(1) = V(1)+D(1);
-	SHOW 6, 1st_CP_left, V(0);
-	SHOW 7, 2nd_CP_left, V(1);
-	SHOW 8, 1st_CP_right, W(0);
-	SHOW 9, 2nd_CP_right, W(1);
+	SHOW 11, 1st_CP_left, V(0);
+	SHOW 12, 2nd_CP_left, V(1);
+	SHOW 16, 1st_CP_right, W(0);
+	SHOW 17, 2nd_CP_right, W(1);
 	add E; set A(E-1)=T+.01; \ Session starts
 	off^chamber_light; add E; set A(E-1)=T+0.35 ---> S2
 
@@ -172,7 +172,7 @@ S2,
 	@notscheduled: ---> SX
 
 S3,
-#R^left_key: add C(3); add E; set A(E-1)=T+0.54; \ Reinforcer from LEFT 
+#R^left_key: add C(3); SHOW 6, reinf_left, C(3); add E; set A(E-1)=T+0.54; \ Reinforcer from LEFT 
 	on^feeder; add E; set A(E-1)=T+0.24 ---> S4
 
 S4,
@@ -190,7 +190,7 @@ S2,
 	@notscheduled: ---> SX
 
 S3,
-#R^right_key: add C(4); add E; set A(E-1)=T+0.64; \ Reinforcer from RIGHT 
+#R^right_key: add C(4); SHOW 7, reinf_right, C(4); add E; set A(E-1)=T+0.64; \ Reinforcer from RIGHT 
 	on^feeder; add E; set A(E-1)=T+0.24 ---> S4
 
 S4,
@@ -202,7 +202,7 @@ S4,
 S.S.6,
 S1,
 #R^left_key: add E; set A(E-1)=T+0.12;
-	 add C(1); SHOW 3, resp_left, C(1) ---> SX
+	 add C(1); SHOW 1, resp_left, C(1) ---> SX
 
 
 
@@ -210,7 +210,7 @@ S1,
 S.S.7,
 S1,
 #R^right_key: add E; set A(E-1)=T+0.13;
-	add C(2); SHOW 4, resp_right, C(2) ---> SX
+	add C(2); SHOW 2, resp_right, C(2) ---> SX
 
 
  
@@ -218,7 +218,7 @@ S1,
 S.S.8,
 S1,
 #R^central_key: add E; set A(E-1)=T+0.11;
-	add C(0); SHOW 5, resp_central, C(0) ---> SX
+	add C(0); SHOW 3, resp_central, C(0) ---> SX
 
 
 
@@ -227,7 +227,8 @@ S1,
 #START: ---> S2
 
 S2,
-1": SHOW 11, time_left, (S-T)/100;
+1": SHOW 41, time_left, (S-T)/100;
+	SHOW 46, time_elapsed, T/100;
 	SHOW 21, vi_left_1, 1/(L(0)/10000);
 	SHOW 22, vi_left_2, 1/(L(1)/10000);
 	SHOW 23, vi_left_3, 1/(L(2)/10000);

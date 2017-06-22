@@ -76,9 +76,50 @@ def hatter(file_name,array):
 		'experiment_name':extraction['experiment_name'],
 		'experiment_program':extraction['experiment_program']}
 	data_frame=pd.DataFrame(base)
-	data_frame=data_frame.ix[(data_frame['after_point']!='000')]
+	data_frame=data_frame.loc[(data_frame['after_point']!='000')]
 	data_frame['data_file']=file_name
 	return data_frame
+
+
+
+def concurrent_extractor(file):
+	ht=hatter(file,'A')
+	rt=ht.loc[:,['box',
+			'data_file',
+			'date',
+			'session_start',
+			'session_end']]
+	rt['bird']=ht.subject
+	rt['med_notation_file']=ht.experiment_program
+	rt['event_key']=ht.after_point
+	rt['time_sec_100']=ht.before_point
+	rt['event']=ht.after_point
+	rt['session_time_sec']=ht.before_point.astype('float')/100
+	rt.event.loc[rt.event_key=='010']='session_start'
+	rt.event.loc[rt.event_key=='020']='session_end'
+	rt.event.loc[rt.event_key=='110']='response_central_key'
+	rt.event.loc[rt.event_key=='120']='response_left_key'
+	rt.event.loc[rt.event_key=='130']='response_right_key'
+	rt.event.loc[rt.event_key=='220']='left_light_on'
+	rt.event.loc[rt.event_key=='230']='right_light_on'
+	rt.event.loc[rt.event_key=='240']='feeder_on'
+	rt.event.loc[rt.event_key=='340']='feeder_off'
+	rt.event.loc[rt.event_key=='350']='chamber_light_off'
+	rt.event.loc[rt.event_key=='540']='feeder_on_left'
+	rt.event.loc[rt.event_key=='640']='feeder_on_right'
+	rt.event.loc[rt.event_key=='740']='reinforcer_scheduled_left'
+	rt.event.loc[rt.event_key=='840']='reinforcer_scheduled_right'
+	return rt
+
+
+
+def concurrent_updater():
+	"""
+	Assumes there's a full_concurrent.csv, looks for files not already
+	included, and adds them to the file.
+	"""
+
+
 
 
 def real_time_extractor(file_name,z_pulses=False):
