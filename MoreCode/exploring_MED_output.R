@@ -1,3 +1,5 @@
+
+
 # rm(list=ls())
 # data_folder <- '~/Documents/Luis/JAPE/AutoShapingData/'
 # # data_folder <- '~/Documents/Research/JAPE/AutoShapingData/'
@@ -116,11 +118,37 @@
 
 ## Exploring Concurrent Output
 rm(list=ls())
+concurrent_data_folder <- '~/Documents/Luis/JAPE/ConcurrentData'
+setwd(concurrent_data_folder)
 
+ct <- read.csv('concurrent_test.csv')
 
+# Cum-Cum Responses
+cum_resp_left <- NA
+cum_resp_right <- NA
+c_tt <- 0
+for(tt in ct$session_time_sec){
+  c_tt <- c_tt+1
+  cum_resp_left[c_tt] <- sum(ct$event=='response_left_key'&ct$session_time_sec<=tt)
+  cum_resp_right[c_tt] <- sum(ct$event=='response_right_key'&ct$session_time_sec<=tt)
+}
 
+# Cum-Cum Reinforcers
+cum_reinf_left <- NA
+cum_reinf_right <- NA
+c_tt <- 0
+for(tt in ct$session_time_sec){
+  c_tt <- c_tt+1
+  cum_reinf_left[c_tt] <- sum(ct$event=='feeder_on_left'&ct$session_time_sec<=tt)
+  cum_reinf_right[c_tt] <- sum(ct$event=='feeder_on_right'&ct$session_time_sec<=tt)
+}
 
-
+# Plotting
+layout(1:2)
+plot(cum_resp_right,cum_resp_left,ylim=c(0,1000),xlim=c(0,1000))
+abline(0,1,lty='dashed')
+plot(cum_reinf_right,cum_reinf_left,ylim=c(0,100),xlim=c(0,100))
+abline(0,1,lty='dashed')
 
 
 

@@ -60,7 +60,7 @@
 \\ Line for LIST D
 
 \arrays
-DIM A = 10000 \ Real time events
+DIM A = 20000 \ Real time events
 \DIM Z = 500 \ Real time z-pulses
 DIM C = 5 \ Counters
 	\ C(0) = Number responses central_key
@@ -125,13 +125,16 @@ S1,
 	off^chamber_light; add E; set A(E-1)=T+0.35 ---> S2
 
 S2,
-8": on^left_light; add E; set A(E-1)=T+0.22;
+3": on^left_light; add E; set A(E-1)=T+0.22;
 	on^right_light; add E; set A(E-1)=T+0.23 ---> S3 
 
 S3,
 0.01": add T;
 	if T=S[@finish,@keepgoing]
-	@finish: add E; set A(E-1)=T+0.02 ---> STOPABORTFLUSH \Session finishes
+	@finish: off^left_light; add E; set A(E-1)=T+0.32;
+		off^right_light; add E; set A(E-1)=T+0.33; 
+		add E; set A(E-1)=T+0.02;
+		add E; set A(E-1)=-987.987 ---> STOPABORTFLUSH \Session finishes
 	@keepgoing: ---> SX
 
 
