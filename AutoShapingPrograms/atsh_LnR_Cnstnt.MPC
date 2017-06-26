@@ -136,7 +136,7 @@ S1,
 	add V(0); SHOW 1, left_on, V(0) ---> S2
 
 S2,
-6"!#R^left_key: off^left_light; add E; set A(E-1)=T+0.32;
+10"!#R^left_key: off^left_light; add E; set A(E-1)=T+0.32;
 	Z3; add F; set Z(F-1)=T+0.003 ---> S1
 
 
@@ -148,7 +148,7 @@ S1,
 	add V(2); SHOW 2, right_on, V(2) ---> S2
 
 S2,
-6"!#R^right_key: off^right_light; add E; set A(E-1)=T+0.33;
+10"!#R^right_key: off^right_light; add E; set A(E-1)=T+0.33;
 	Z3; add F; set Z(F-1)=T+0.003 ---> S1
 
 

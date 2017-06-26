@@ -26,11 +26,11 @@ import numpy as np
 def expand_concurrent(vi_left,
 			vi_right,
 			discrepancies=[0,0],
-			lower_first=5,
-			upper_first=15,
-			lower_second=25,
-			upper_second=35,
-			session_length=40):
+			lower_first=3,
+			upper_first=5,
+			lower_second=6,
+			upper_second=8,
+			session_length=10):
 	with open('Concurrent_VI_VI.MPC','r') as base:
 		data=base.readlines()
 
@@ -39,12 +39,12 @@ def expand_concurrent(vi_left,
 #	vi_right=[20,30,15]
 	vi_L=np.array(vi_left)
 	vi_R=np.array(vi_right)
-	vi_L=10000/vi_L
-	vi_R=10000/vi_R
-	vi_L=vi_L.astype('str')
-	vi_R=vi_R.astype('str')
-	list_l='LIST L = '+vi_L[0]+','+vi_L[1]+','+vi_L[2]
-	list_r='LIST R = '+vi_R[0]+','+vi_R[1]+','+vi_R[2]
+	vi_L_list=10000/vi_L
+	vi_R_list=10000/vi_R
+	vi_L_l=vi_L_list.astype('str')
+	vi_R_l=vi_R_list.astype('str')
+	list_l='LIST L = '+vi_L_l[0]+','+vi_L_l[1]+','+vi_L_l[2]
+	list_r='LIST R = '+vi_R_l[0]+','+vi_R_l[1]+','+vi_R_l[2]
 
 	# Lower and Upper limits of possible change points
 #	lower_first=10
@@ -82,11 +82,15 @@ def expand_concurrent(vi_left,
 	data[data.index('\\\\ Line for LIST R\n')]=list_r+'\n'
 	data[data.index('\\\\ Line for variable S\n')]='\tset S = '+variable_s+';\n'
 
-	with open('Exit_File.MPC','w') as modified:
+	vi_L=vi_L.astype('str')
+	vi_R=vi_R.astype('str')
+	file_label='japede_L_'+vi_L[0]+'_'+vi_L[1]+'_'+vi_L[2]+'_'+'R_'+vi_R[0]+'_'+vi_R[1]+'_'+vi_R[2]+'.MPC'
+	with open(file_label,'w') as modified:
 		modified.writelines(data)
 
-	return data
+#	return data
 
-dd=expand_concurrent([15,20,10],[25,12,25])
-
+#expand_concurrent([30,30,30],[90,90,90])
+#expand_concurrent([10,15,5],[10,20,10])
+#expand_concurrent([25,10,50],[10,20,10])
 

@@ -55,7 +55,7 @@
 \P: probability of presenting each key in each pairing
 
 \lists
-LIST I = 20,25,30,35,40,45,50,55,60,65,70
+LIST I = 20,25,30,35,40,45,50
 
 \arrays
 DIM A = 10000 \ Real time events
@@ -98,8 +98,9 @@ S1,
 #START: set E = 0;
 	set F = 0;
 	set T = 0;
-	set P = 0;
+	set P = 5000;
 	set N = 60; \ Sets number of pairings in session
+	set G = 10; \ Expected number of resposes to get reinforcer
 	set V(0) = 0;
 	set V(1) = 0;
 	set V(2) = 0;
@@ -118,7 +119,7 @@ S2,
 \ Decide next key
 S.S.2, 
 S1,
-#Z4: if V(5)=N[@T,@F] \ Finish if number of reinforcers equals pairings per session
+#Z4: if (V(5)=N) or (T>360000)[@T,@F] \ Finish if number of reinforcers equals pairings per session
 	@T: add E; set A(E-1)=T+.02 ---> STOPABORTFLUSH \ Record session end
 	@F: RANDI J = I; set J = J*1" ---> S2
 
@@ -136,9 +137,10 @@ S1,
 	add V(0); SHOW 1, left_on, V(0) ---> S2
 
 S2,
-10"!#R^left_key: off^left_light; add E; set A(E-1)=T+0.32;
-	Z3; add F; set Z(F-1)=T+0.003 ---> S1
-
+#R^left_key: WITHPI=10000/G[@reinforce,@notyet] 
+	@reinforce: off^left_light; add E; set A(E-1)=T+0.32;
+			Z3; add F; set Z(F-1)=T+0.003 ---> S1
+	@notyet: ---> SX
 
 
 \ Presentation of RIGHT key (+ reinf)
@@ -148,9 +150,10 @@ S1,
 	add V(2); SHOW 2, right_on, V(2) ---> S2
 
 S2,
-10"!#R^right_key: off^right_light; add E; set A(E-1)=T+0.33;
-	Z3; add F; set Z(F-1)=T+0.003 ---> S1
-
+#R^right_key: WITHPI=10000/G[@reinforce,@notyet]
+	@reinforce: off^right_light; add E; set A(E-1)=T+0.33;
+			Z3; add F; set Z(F-1)=T+0.003 ---> S1
+	@notyet: ---> SX
 
 
 \ Feeder
