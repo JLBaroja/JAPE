@@ -26,11 +26,11 @@ import numpy as np
 def expand_concurrent(vi_left,
 			vi_right,
 			discrepancies=[0,0],
-			lower_first=3,
-			upper_first=5,
-			lower_second=6,
-			upper_second=8,
-			session_length=10):
+			lower_first=15,
+			upper_first=35,
+			lower_second=55,
+			upper_second=75,
+			session_length=60):
 	with open('Concurrent_VI_VI.MPC','r') as base:
 		data=base.readlines()
 
@@ -90,7 +90,7 @@ def expand_concurrent(vi_left,
 
 #	return data
 
-#expand_concurrent([30,30,30],[90,90,90])
+expand_concurrent([30,30,30],[90,90,90])
 #expand_concurrent([10,15,5],[10,20,10])
 #expand_concurrent([25,10,50],[10,20,10])
 

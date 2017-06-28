@@ -90,6 +90,7 @@ def concurrent_extractor(file):
 			'session_start',
 			'session_end']]
 	rt['bird']=ht.subject
+	rt['session']=file.split('_')[1]
 	rt['med_notation_file']=ht.experiment_program
 	rt['event_key']=ht.after_point
 	rt['time_sec_100']=ht.before_point
@@ -102,14 +103,37 @@ def concurrent_extractor(file):
 	rt.event.loc[rt.event_key=='130']='response_right_key'
 	rt.event.loc[rt.event_key=='220']='left_light_on'
 	rt.event.loc[rt.event_key=='230']='right_light_on'
+	rt.event.loc[rt.event_key=='320']='left_light_off'
+	rt.event.loc[rt.event_key=='330']='right_light_off'
 	rt.event.loc[rt.event_key=='240']='feeder_on'
 	rt.event.loc[rt.event_key=='340']='feeder_off'
+	rt.event.loc[rt.event_key=='250']='chamber_light_on'
 	rt.event.loc[rt.event_key=='350']='chamber_light_off'
 	rt.event.loc[rt.event_key=='540']='feeder_on_left'
 	rt.event.loc[rt.event_key=='640']='feeder_on_right'
 	rt.event.loc[rt.event_key=='740']='reinforcer_scheduled_left'
 	rt.event.loc[rt.event_key=='840']='reinforcer_scheduled_right'
 	return rt
+
+
+
+
+def concurrent_builder(output_archive):
+	"""
+	Makes a single DF according to 'function' with information
+	contained in all files in 'Raw MED files'.
+	"""
+	os.chdir('Raw MED files/')
+	files=os.listdir('.')
+	global_df=pd.DataFrame()
+	for archive in range(len(files)):
+		print files[archive]
+		#if files[archive]!='p736_s02_atsh':
+		frames=[global_df,concurrent_extractor(files[archive])]
+		global_df=pd.concat(frames)
+	os.chdir('..')
+	global_df.to_csv(output_archive)
+
 
 
 
