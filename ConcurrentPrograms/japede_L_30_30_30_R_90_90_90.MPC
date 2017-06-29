@@ -183,7 +183,7 @@ S3,
 	on^feeder; add E; set A(E-1)=T+0.24 ---> S4
 
 S4,
-3":  on^left_light; add E; set A(E-1)=T+0.22;
+2.5":  on^left_light; add E; set A(E-1)=T+0.22;
 	on^right_light; add E; set A(E-1)=T+0.23;
 	on^chamber_light; add E; set A(E-1)=T+0.25;
 	off^feeder; add E; set A(E-1)=T+0.34 ---> S2
@@ -207,7 +207,7 @@ S3,
 	on^feeder; add E; set A(E-1)=T+0.24 ---> S4
 
 S4,
-3":  on^left_light; add E; set A(E-1)=T+0.22;
+2.5":  on^left_light; add E; set A(E-1)=T+0.22;
 	on^right_light; add E; set A(E-1)=T+0.23;
 	on^chamber_light; add E; set A(E-1)=T+0.25;
 	off^feeder; add E; set A(E-1)=T+0.34 ---> S2
