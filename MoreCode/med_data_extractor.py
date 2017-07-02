@@ -142,7 +142,29 @@ def concurrent_updater():
 	Assumes there's a full_concurrent.csv, looks for files not already
 	included, and adds them to the file.
 	"""
+	cf=pd.read_csv('ConcurrentData/concurrent_full.csv')
+	already_included=cf.data_file.unique()
+	not_yet_included=list()
+	all_raw_files=os.listdir('ConcurrentData/Raw MED files')
+	print 'The following archives be aded to concurrent_full.csv:'
+	for arf in all_raw_files:
+		if arf not in already_included:
+			not_yet_included.append(arf)
+			print arf
 
+	keep_going=raw_input('That okay? [y]/n')
+	if keep_going.lower()=='y' or keep_going=='':
+		os.chdir('ConcurrentData/Raw MED files/')
+		for archive in not_yet_included:
+			print 'Adding '+archive
+			frames=[cf,concurrent_extractor(archive)]
+			cf=pd.concat(frames)
+		os.chdir('..')
+		cf.to_csv('concurrent_full.csv')
+		print 'concurrent_full.csv updated, Bru!'
+		os.chdir('..')
+	else:
+		print 'camaras chido!'
 
 
 

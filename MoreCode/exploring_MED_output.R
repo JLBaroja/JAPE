@@ -164,8 +164,8 @@ cumulative_stuff <- function(brd,sssn){
 
 
 
-birds <- unique(ct_full$bird)
-sessions <- unique(ct_full$session)
+birds <- sort(unique(ct_full$bird))
+sessions <- sort(unique(ct_full$session))
 
 brds_info <- vector('list',length(birds))
 # bird <- birds[1]
@@ -213,5 +213,63 @@ for(bb in 1:length(birds)){
   # text(150,25,paste('# Right:',max(cum_reinf_right)),adj=c(1,.5))
   # text(150,25,paste('# Total:',max(cum_reinf_left)+max(cum_reinf_right)),adj=c(1,2))
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+bb <- birds[3]
+b_data <- subset(ct_full,bird==bb)
+# ss <- sessions[1]
+dev.off()
+x11(width=20,height=10)
+layout(1:length(sessions))
+par(mar=rep(2,4),oma=c(0,0,3,0))
+for(ss in sessions){
+  s_data <- subset(b_data,session==ss)
+  time_zoom <- c(1500,1500+60*5)
+  # time_zoom <- c(0,max(s_data$session_time_sec))
+  plot(NULL,ylim=c(-1,1),xlim=time_zoom)
+  segments(
+    x0=s_data$session_time_sec[s_data$event=='response_left_key'],
+    x1=s_data$session_time_sec[s_data$event=='response_left_key'],
+    y0=rep(0.2-.1,sum(s_data$event=='response_left_key')),
+    y1=rep(0.2+.1,sum(s_data$event=='response_left_key')))
+  segments(
+    x0=s_data$session_time_sec[s_data$event=='response_right_key'],
+    x1=s_data$session_time_sec[s_data$event=='response_right_key'],
+    y0=rep(-0.2-.1,sum(s_data$event=='response_right_key')),
+    y1=rep(-0.2+.1,sum(s_data$event=='response_right_key')))
+  points(s_data$session_time_sec[s_data$event=='reinforcer_scheduled_left'],
+         rep(0.4,sum(s_data$event=='reinforcer_scheduled_left')),pch=4,lwd=2,col='#dd8800')
+  points(s_data$session_time_sec[s_data$event=='reinforcer_scheduled_right'],
+         rep(-0.4,sum(s_data$event=='reinforcer_scheduled_right')),pch=4,lwd=2,col='#dd8800')
+  points(s_data$session_time_sec[s_data$event=='feeder_on_left'],
+         rep(0.5,sum(s_data$event=='feeder_on_left')),pch=4,cex=1.5,lwd=2,col='#dd2200')
+  points(s_data$session_time_sec[s_data$event=='feeder_on_right'],
+         rep(-0.5,sum(s_data$event=='feeder_on_right')),pch=4,cex=1.5,lwd=2,col='#dd2200')
+}
+mtext(bb,3,outer=T,cex=1.5)
 
 
