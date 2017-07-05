@@ -184,19 +184,20 @@ for(bb in 1:length(birds)){
 dev.off()
 x11(width=20,height=7)
 layout(matrix(1:12,ncol=6))
-par(mar=rep(2,4),oma=rep(3,4))
+par(mar=rep(2,4),oma=rep(3,4),bg='#000000',fg='#aaaaaa',col.axis='#aaaaaa')
+colors <- c(heat.colors(length(sessions)-1),'#00ffff')
 for(bb in 1:length(birds)){
   
   # print(c(bb,
   #         max(c(max(cum_reinf_left),max(cum_reinf_right))),
   #         max(c(max(cum_resp_left),max(cum_resp_right)))))
   
-  plot(NULL,ylim=c(0,2700),xlim=c(0,2700),type='l')
+  plot(NULL,ylim=c(0,4000),xlim=c(0,4000),type='l')
   abline(0,1,lty='dashed')
   mtext(birds[bb],3,cex=1.5,line=1)
   for(ss in 1:length(sessions)){
     sd <- brds_info[[bb]][[ss]]
-    lines(sd$cum_resp_right,sd$cum_resp_left)
+    lines(sd$cum_resp_right,sd$cum_resp_left,col=colors[ss])
   }
   # text(2500,500,paste('# Left:',max(cum_resp_left)),adj=c(1,-1))
   # text(2500,500,paste('# Right:',max(cum_resp_right)),adj=c(1,.5))
@@ -206,7 +207,7 @@ for(bb in 1:length(birds)){
   abline(0,1,lty='dashed')
   for(ss in 1:length(sessions)){
     sd <- brds_info[[bb]][[ss]]
-    lines(sd$cum_reinf_right,sd$cum_reinf_left)
+    lines(sd$cum_reinf_right,sd$cum_reinf_left,col=colors[ss])
   }
   
   # text(150,25,paste('# Left:',max(cum_reinf_left)),adj=c(1,-1))
@@ -238,19 +239,18 @@ for(bb in 1:length(birds)){
 
 
 
-
-bb <- birds[3]
-b_data <- subset(ct_full,bird==bb)
-# ss <- sessions[1]
-dev.off()
-x11(width=20,height=10)
-layout(1:length(sessions))
-par(mar=rep(2,4),oma=c(0,0,3,0))
-for(ss in sessions){
-  s_data <- subset(b_data,session==ss)
-  time_zoom <- c(1500,1500+60*5)
+plot_session <- function(session_data,
+                         time_zoom = NULL,
+                         reinf_details=F){
+  if(length(time_zoom)!=2){
+    if(class(time_zoom)=='NULL'){time_zoom=c(0,max(session_data$session_time_sec))}
+    else if(time_zoom=='end'){time_zoom=c(max(session_data$session_time_sec)-200,
+                                          max(session_data$session_time_sec))}
+    else if(time_zoom=='start'){time_zoom=c(0,200)}
+  }
   # time_zoom <- c(0,max(s_data$session_time_sec))
-  plot(NULL,ylim=c(-1,1),xlim=time_zoom)
+  plot(NULL,ylim=c(-1,1),xlim=time_zoom,axes=F)
+  axis(1)
   segments(
     x0=s_data$session_time_sec[s_data$event=='response_left_key'],
     x1=s_data$session_time_sec[s_data$event=='response_left_key'],
@@ -269,6 +269,35 @@ for(ss in sessions){
          rep(0.5,sum(s_data$event=='feeder_on_left')),pch=4,cex=1.5,lwd=2,col='#dd2200')
   points(s_data$session_time_sec[s_data$event=='feeder_on_right'],
          rep(-0.5,sum(s_data$event=='feeder_on_right')),pch=4,cex=1.5,lwd=2,col='#dd2200')
+  if(reinf_details){
+  text(s_data$session_time_sec[s_data$event=='feeder_on_left'],
+         rep(0.5,sum(s_data$event=='feeder_on_left')),
+       paste(s_data$session_time_sec[s_data$event=='feeder_on_left']),
+       pch=4,cex=1,lwd=2,col='#dd2200',srt=90,adj=-.5)
+  text(s_data$session_time_sec[s_data$event=='feeder_on_right'],
+         rep(-0.5,sum(s_data$event=='feeder_on_right')),
+       paste(s_data$session_time_sec[s_data$event=='feeder_on_right']),
+       pch=4,cex=1,lwd=2,col='#dd2200',srt=90,adj=1.5)
+    
+  }
+}
+
+
+
+
+
+
+
+bb <- birds[3]
+b_data <- subset(ct_full,bird==bb)
+# ss <- sessions[1]
+dev.off()
+x11(width=20,height=10)
+layout(1:length(sessions))
+par(mar=rep(2,4),oma=c(0,0,3,0))
+for(ss in sessions){
+  s_data <- subset(b_data,session==ss)
+  plot_session(s_data)
 }
 mtext(bb,3,outer=T,cex=1.5)
 
