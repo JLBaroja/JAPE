@@ -185,7 +185,7 @@ dev.off()
 x11(width=20,height=7)
 layout(matrix(1:12,ncol=6))
 par(mar=rep(2,4),oma=rep(3,4),bg='#000000',fg='#aaaaaa',col.axis='#aaaaaa')
-colors <- c(heat.colors(length(sessions)-1),'#00ffff')
+colors <- c(heat.colors(length(sessions)-2),c('#0000ff','#00ffff'))
 for(bb in 1:length(birds)){
   
   # print(c(bb,
@@ -214,76 +214,6 @@ for(bb in 1:length(birds)){
   # text(150,25,paste('# Right:',max(cum_reinf_right)),adj=c(1,.5))
   # text(150,25,paste('# Total:',max(cum_reinf_left)+max(cum_reinf_right)),adj=c(1,2))
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-plot_session <- function(session_data,
-                         time_zoom = NULL,
-                         reinf_details=F){
-  if(length(time_zoom)!=2){
-    if(class(time_zoom)=='NULL'){time_zoom=c(0,max(session_data$session_time_sec))}
-    else if(time_zoom=='end'){time_zoom=c(max(session_data$session_time_sec)-200,
-                                          max(session_data$session_time_sec))}
-    else if(time_zoom=='start'){time_zoom=c(0,200)}
-  }
-  # time_zoom <- c(0,max(s_data$session_time_sec))
-  plot(NULL,ylim=c(-1,1),xlim=time_zoom,axes=F)
-  axis(1)
-  segments(
-    x0=s_data$session_time_sec[s_data$event=='response_left_key'],
-    x1=s_data$session_time_sec[s_data$event=='response_left_key'],
-    y0=rep(0.2-.1,sum(s_data$event=='response_left_key')),
-    y1=rep(0.2+.1,sum(s_data$event=='response_left_key')),
-    lwd=0.5)
-  segments(
-    x0=s_data$session_time_sec[s_data$event=='response_right_key'],
-    x1=s_data$session_time_sec[s_data$event=='response_right_key'],
-    y0=rep(-0.2-.1,sum(s_data$event=='response_right_key')),
-    y1=rep(-0.2+.1,sum(s_data$event=='response_right_key')),
-    lwd=0.5)
-  points(s_data$session_time_sec[s_data$event=='reinforcer_scheduled_left'],
-         rep(0.4,sum(s_data$event=='reinforcer_scheduled_left')),pch=4,lwd=2,col='#dd8800')
-  points(s_data$session_time_sec[s_data$event=='reinforcer_scheduled_right'],
-         rep(-0.4,sum(s_data$event=='reinforcer_scheduled_right')),pch=4,lwd=2,col='#dd8800')
-  points(s_data$session_time_sec[s_data$event=='feeder_on_left'],
-         rep(0.5,sum(s_data$event=='feeder_on_left')),pch=4,cex=1.5,lwd=2,col='#dd2200')
-  points(s_data$session_time_sec[s_data$event=='feeder_on_right'],
-         rep(-0.5,sum(s_data$event=='feeder_on_right')),pch=4,cex=1.5,lwd=2,col='#dd2200')
-  if(reinf_details){
-  text(s_data$session_time_sec[s_data$event=='feeder_on_left'],
-         rep(0.5,sum(s_data$event=='feeder_on_left')),
-       paste(s_data$session_time_sec[s_data$event=='feeder_on_left']),
-       pch=4,cex=1,lwd=2,col='#dd2200',srt=90,adj=-.5)
-  text(s_data$session_time_sec[s_data$event=='feeder_on_right'],
-         rep(-0.5,sum(s_data$event=='feeder_on_right')),
-       paste(s_data$session_time_sec[s_data$event=='feeder_on_right']),
-       pch=4,cex=1,lwd=2,col='#dd2200',srt=90,adj=1.5)
-    
-  }
-}
-
 
 
 
