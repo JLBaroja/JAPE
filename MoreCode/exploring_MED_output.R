@@ -122,7 +122,7 @@
 
 
 ## Exploring Concurrent Output
-rm(list=ls())
+# rm(list=ls())
 concurrent_data_folder <- '~/Documents/Luis/JAPE/ConcurrentData'
 setwd(concurrent_data_folder)
 ct_full <- read.csv('concurrent_full.csv',stringsAsFactors = F)
@@ -255,12 +255,14 @@ plot_session <- function(session_data,
     x0=s_data$session_time_sec[s_data$event=='response_left_key'],
     x1=s_data$session_time_sec[s_data$event=='response_left_key'],
     y0=rep(0.2-.1,sum(s_data$event=='response_left_key')),
-    y1=rep(0.2+.1,sum(s_data$event=='response_left_key')))
+    y1=rep(0.2+.1,sum(s_data$event=='response_left_key')),
+    lwd=0.5)
   segments(
     x0=s_data$session_time_sec[s_data$event=='response_right_key'],
     x1=s_data$session_time_sec[s_data$event=='response_right_key'],
     y0=rep(-0.2-.1,sum(s_data$event=='response_right_key')),
-    y1=rep(-0.2+.1,sum(s_data$event=='response_right_key')))
+    y1=rep(-0.2+.1,sum(s_data$event=='response_right_key')),
+    lwd=0.5)
   points(s_data$session_time_sec[s_data$event=='reinforcer_scheduled_left'],
          rep(0.4,sum(s_data$event=='reinforcer_scheduled_left')),pch=4,lwd=2,col='#dd8800')
   points(s_data$session_time_sec[s_data$event=='reinforcer_scheduled_right'],
