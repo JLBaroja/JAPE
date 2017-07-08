@@ -18,13 +18,13 @@ plot_session <- function(s_data,
     x1=s_data$session_time_sec[s_data$event=='response_left_key'],
     y0=rep(0.2-.1,sum(s_data$event=='response_left_key')),
     y1=rep(0.2+.1,sum(s_data$event=='response_left_key')),
-    lwd=0.5,col='#bbbbff')
+    lwd=0.5,col='#88dd88')
   segments(
     x0=s_data$session_time_sec[s_data$event=='response_right_key'],
     x1=s_data$session_time_sec[s_data$event=='response_right_key'],
     y0=rep(-0.2-.1,sum(s_data$event=='response_right_key')),
     y1=rep(-0.2+.1,sum(s_data$event=='response_right_key')),
-    lwd=0.5,col='#bbbbff')
+    lwd=0.5,col='#88dd88')
   points(s_data$session_time_sec[s_data$event=='reinforcer_scheduled_left'],
          rep(0.4,sum(s_data$event=='reinforcer_scheduled_left')),pch=4,lwd=1,col='#dd8800')
   points(s_data$session_time_sec[s_data$event=='reinforcer_scheduled_right'],

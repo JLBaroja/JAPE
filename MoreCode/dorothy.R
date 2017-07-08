@@ -18,12 +18,12 @@ sessionz <- sort(unique(japede_full$session))
 dev.off()
 x11(width=18,height=8)
 layout(matrix(1:(length(birdz)*length(sessionz)),ncol=length(birdz)))
-par(mar=rep(1,4),mgp=c(2,0,0),tck=0.02,oma=c(0,0,1,0))
+par(mar=rep(1,4),mgp=c(2,0,0),tck=0.02,oma=c(0,0,1,0),bg='#000000',col.axis='#666666',fg='#888888')
 
 brd <- birdz[1]
 for(brd in birdz){
   b_data <- subset(japede_full,bird==brd)
-  sssn <- sessionz[3]
+  sssn <- sessionz[4]
   for(sssn in sessionz){
     s_data <- subset(b_data,session==sssn)
     
@@ -70,38 +70,66 @@ for(brd in birdz){
     rsp_bfr_leave <- NULL
     tm_bfr_leave <- NULL
     tm_bfr_join <- NULL
-    # rr <- all_rnf[10]
+    resp_rows <- NULL
     c_rr <- 0
     for(rr in all_rnf){
       c_rr <- c_rr+1
+      # rr <- all_rnf[90]
       rsp_row <- which(all_rsp==rr)
       if(key_rsp[rsp_row]=='left'){
         next_leave_row <- which(leave_left&all_rsp>=rr)[1]
+        # next_leave_row <- sum(c(which(leave_left&all_rsp>=rr)[1],
+        #                         is.na(which(leave_left&all_rsp>=rr)[1])*length(all_rsp)),na.rm=T)
         next_join_row <- which(join_right&all_rsp>=rr)[1]
-        reinforcer_count <- rnfrcd_left[rsp_row:next_leave_row]}
+        reinforcer_target <- rnfrcd_left}
       if(key_rsp[rsp_row]=='right'){
         next_leave_row <- which(leave_right&all_rsp>=rr)[1]
         next_join_row <- which(join_left&all_rsp>=rr)[1]
-        reinforcer_count <- rnfrcd_right[rsp_row:next_leave_row]}
+        reinforcer_target <- rnfrcd_right}
       
-      rnf_bfr_leave[c_rr] <- sum(reinforcer_count)-1
-      rsp_bfr_leave[c_rr] <- length(rsp_row:next_leave_row)-1
-      tm_bfr_leave[c_rr] <- all_rsp[next_leave_row]-all_rsp[rsp_row]
-      tm_bfr_join[c_rr] <- all_rsp[next_join_row]-all_rsp[rsp_row]
+      if(is.na(next_leave_row)){      
+        rnf_bfr_leave[c_rr] <- NA
+        rsp_bfr_leave[c_rr] <- NA
+        tm_bfr_leave[c_rr] <- NA
+        tm_bfr_join[c_rr] <- NA
+      }
+      else{      
+        rnf_bfr_leave[c_rr] <- sum(reinforcer_target[rsp_row:next_leave_row])-1
+        rsp_bfr_leave[c_rr] <- length(rsp_row:next_leave_row)-1
+        tm_bfr_leave[c_rr] <- all_rsp[next_leave_row]-all_rsp[rsp_row]
+        tm_bfr_join[c_rr] <- all_rsp[next_join_row]-all_rsp[rsp_row]
+      }
       
-      print(c(rr,
-              rnf_bfr_leave[c_rr],
-              rsp_bfr_leave[c_rr],
-              tm_bfr_leave[c_rr],
-              tm_bfr_join[c_rr]))
+      # print(c(
+      #   # key_rsp[rsp_row],
+      #   rr,
+      #   rnf_bfr_leave[c_rr],
+      #   rsp_bfr_leave[c_rr],
+      #   tm_bfr_leave[c_rr],
+      #   tm_bfr_join[c_rr]
+      # ))
+      
+      # resp_rows[c_rr] <- rsp_row
     }
-    # responses[rsp_row:next_join_row,]
     
-    layout(1:2)
-    par(mar=rep(3,4))
-    plot_session(s_data,time_zoom = c(0,1400),reinf_details = T)
-    plot_session(s_data,time_zoom = c(1000,3600),reinf_details = T)
-    # plot_session(s_data)
+    # data.frame(
+    #   key_rsp[resp_rows],
+    #   all_rnf,#[1:(c_rr-1)],
+    #   rnf_bfr_leave,
+    #   rsp_bfr_leave,
+    #   tm_bfr_leave,
+    #   tm_bfr_join
+    # )
+
+    
+        # responses[rsp_row:next_join_row,]
+    # 
+    # dev.off()
+    # layout(1:2)
+    # par(mar=rep(3,4))
+    # plot_session(s_data,time_zoom = c(0,400),reinf_details = T)
+    # plot_session(s_data,time_zoom = c(1335,1375),reinf_details = T)
+    # # plot_session(s_data)
     
     
     
@@ -131,17 +159,25 @@ for(brd in birdz){
     time_since_last_in_same[which(key_rnf=='right')] <- tsls_right
     
     
-    par(bg='#dddddd')
+    
     plot(NULL,
-         ylim=c(0,20),
+         ylim=c(0,15),
          xlim=c(0,max(s_data$session_time_sec)),
          axes=F)
+    axis(1)
+    axis(2)
     # points(schdld_left,tss_left,pch=16,col='#0000aaaa',cex=1,type='l',lwd=2)
     # points(schdld_right,tss_right,pch=16,col='#aa0000aa',cex=1,type='l',lwd=2)
     # points(rnf_left,tsls_left,pch=16,col='#0000aaaa',cex=1,type='l',lwd=2)
     # points(rnf_right,tsls_right,pch=16,col='#aa0000aa',cex=1,type='l',lwd=2)
-    points(rnf_left,rnf_bfr_leave[key_rnf=='left'],pch=16,col='#0000aaaa',cex=1,type='l',lwd=2)
-    points(rnf_right,rnf_bfr_leave[key_rnf=='right'],pch=16,col='#aa0000aa',cex=1,type='l',lwd=2)
+    # points(rnf_left,rnf_bfr_leave[key_rnf=='left'],pch=16,col='#dd88dd',cex=1,type='l',lwd=1)
+    # points(rnf_right,rnf_bfr_leave[key_rnf=='right'],pch=16,col='#dddd88',cex=1,type='l',lwd=1)
+    # points(rnf_left,rsp_bfr_leave[key_rnf=='left'],pch=16,col='#dd88dd',cex=1,type='l',lwd=1)
+    # points(rnf_right,rsp_bfr_leave[key_rnf=='right'],pch=16,col='#dddd88',cex=1,type='l',lwd=1)
+    # points(rnf_left,tm_bfr_join[key_rnf=='left'],pch=16,col='#dd88dd',cex=1,type='l',lwd=1)
+    # points(rnf_right,tm_bfr_join[key_rnf=='right'],pch=16,col='#dddd88',cex=1,type='l',lwd=1)
+    points(rnf_left,tm_bfr_leave[key_rnf=='left'],pch=16,col='#dd88dd',cex=1,type='l',lwd=1)
+    points(rnf_right,tm_bfr_leave[key_rnf=='right'],pch=16,col='#dddd88',cex=1,type='l',lwd=1)
     # points(all_rnf,tsls_any,pch=16,col='#aaaaaa',cex=1,type='l',lwd=1)
     # points(rnf_left,tsls_any[which(key_rnf=='left')],pch=16,col='#0000aaaa',cex=1,type='l',lwd=2)
     # points(rnf_right,tsls_any[which(key_rnf=='right')],pch=16,col='#aa0000aa',cex=1,type='l',lwd=2)
@@ -162,7 +198,7 @@ for(brd in birdz){
                             leave_right,
                             rnfrcd_left,
                             rnfrcd_right
-    );head(responses,20);tail(responses,60)
+    );head(responses,2);tail(responses,2)
     
     reinforcers <- data.frame(bird=brd,
                               session=sssn,
@@ -176,7 +212,7 @@ for(brd in birdz){
                               rsp_bfr_leave,
                               tm_bfr_leave,
                               tm_bfr_join
-    );head(reinforcers,17);tail(reinforcers,15)
+    );head(reinforcers,2);tail(reinforcers,2)
     
   }
 }
