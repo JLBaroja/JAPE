@@ -194,6 +194,7 @@ for(bb in 1:length(birds)){
   
   plot(NULL,ylim=c(0,4000),xlim=c(0,4000),type='l')
   abline(0,1,lty='dashed')
+  abline(0,3,lty='solid',col='#888888')
   mtext(birds[bb],3,cex=1.5,line=1)
   for(ss in 1:length(sessions)){
     sd <- brds_info[[bb]][[ss]]
@@ -205,6 +206,7 @@ for(bb in 1:length(birds)){
   
   plot(NULL,ylim=c(0,160),xlim=c(0,160),type='l')
   abline(0,1,lty='dashed')
+  abline(0,3,lty='solid',col='#888888')
   for(ss in 1:length(sessions)){
     sd <- brds_info[[bb]][[ss]]
     lines(sd$cum_reinf_right,sd$cum_reinf_left,col=colors[ss])

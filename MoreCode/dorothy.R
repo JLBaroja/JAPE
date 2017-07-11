@@ -197,7 +197,7 @@ for(brd in birdz){
     
     
     plot(NULL,
-         ylim=c(0,5),
+         ylim=c(0,30),
          xlim=c(0,max(s_data$session_time_sec)),
          axes=F)
     # plot(NULL,
@@ -215,11 +215,11 @@ for(brd in birdz){
     # points(tm_bfr_leave[key_rnf=='left'],rsp_bfr_leave[key_rnf=='left'],pch=16,col='#dd88dd88',cex=.8,type='p',lwd=1)
     # points(tm_bfr_leave[key_rnf=='right'],rsp_bfr_leave[key_rnf=='right'],pch=16,col='#88dddd88',cex=.8,type='p',lwd=1)
     # points(all_rsp[key_rsp=='left'],rsp_bfr_leave_rsp[key_rsp=='left'],pch=16,col='#dd88dd88',cex=.8,type='l',lwd=1)
-    # points(all_rsp[key_rsp=='right'],rsp_bfr_leave_rsp[key_rsp=='right'],pch=16,col='#88dddd88',cex=.8,type='l',lwd=1)
-    # points(all_rsp[key_rsp=='left'],tm_bfr_leave_rsp[key_rsp=='left'],pch=16,col='#dd88dd88',cex=.8,type='l',lwd=1)
-    # points(all_rsp[key_rsp=='right'],tm_bfr_leave_rsp[key_rsp=='right'],pch=16,col='#88dddd88',cex=.8,type='l',lwd=1)
-    points(all_rsp[key_rsp=='left'],rnf_bfr_leave_rsp[key_rsp=='left'],pch=16,col='#dd88dd88',cex=.8,type='o',lwd=1)
-    points(all_rsp[key_rsp=='right'],rnf_bfr_leave_rsp[key_rsp=='right'],pch=16,col='#88dddd88',cex=.8,type='o',lwd=1)
+    # points(all_rsp[key_rsp=='right'],rsp_bfr_leave_rsp[key_rsp=='right'],pch=16,col='#8899ccbb',cex=.8,type='l',lwd=1)
+    points(all_rsp[key_rsp=='left'],tm_bfr_leave_rsp[key_rsp=='left'],pch=16,col='#dd88dd88',cex=.8,type='l',lwd=1)
+    points(all_rsp[key_rsp=='right'],tm_bfr_leave_rsp[key_rsp=='right'],pch=16,col='#88bbddaa',cex=.8,type='l',lwd=1)
+    # points(all_rsp[key_rsp=='left'],rnf_bfr_leave_rsp[key_rsp=='left'],pch=16,col='#dd88dd88',cex=.8,type='o',lwd=1)
+    # points(all_rsp[key_rsp=='right'],rnf_bfr_leave_rsp[key_rsp=='right'],pch=16,col='#88dddd88',cex=.8,type='o',lwd=1)
     # points(tm_bfr_leave_rsp[key_rsp=='left'],rsp_bfr_leave_rsp[key_rsp=='left'],pch=16,col='#dd88dd88',cex=.2,type='p',lwd=1)
     # points(tm_bfr_leave_rsp[key_rsp=='right'],rsp_bfr_leave_rsp[key_rsp=='right'],pch=16,col='#88dddd88',cex=.2,type='p',lwd=1)
     # points(rnf_left,rsp_bfr_leave[key_rnf=='left'],pch=16,col='#dd88dd88',cex=.8,type='o',lwd=1)
