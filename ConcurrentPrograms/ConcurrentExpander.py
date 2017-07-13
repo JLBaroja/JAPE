@@ -27,7 +27,7 @@ def expand_concurrent(vi_left,
 			vi_right,
 			discrepancies=[0,0],
 			lower_first=15,
-			upper_first=35,
+			upper_first=25,
 			lower_second=55,
 			upper_second=75,
 			session_length=60):
@@ -90,7 +90,7 @@ def expand_concurrent(vi_left,
 
 #	return data
 
-expand_concurrent([30,30,30],[90,90,90])
-#expand_concurrent([10,15,5],[10,20,10])
-#expand_concurrent([25,10,50],[10,20,10])
+#expand_concurrent([30,30,30],[90,90,90])
+#expand_concurrent([30,90,90],[90,30,30])
+expand_concurrent([90,90,90],[30,30,30])
 
