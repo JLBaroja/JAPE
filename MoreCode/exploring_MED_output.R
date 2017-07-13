@@ -185,7 +185,7 @@ dev.off()
 x11(width=20,height=7)
 layout(matrix(1:12,ncol=6))
 par(mar=rep(2,4),oma=rep(3,4),bg='#000000',fg='#aaaaaa',col.axis='#aaaaaa')
-colors <- c(heat.colors(length(sessions)-2),c('#0000ff','#00ffff'))
+colors <- c(heat.colors(length(sessions)-2),c('#00dd00','#00dddd'))
 for(bb in 1:length(birds)){
   
   # print(c(bb,
