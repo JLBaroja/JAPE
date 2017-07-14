@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 fd=pd.read_csv('ConcurrentData/concurrent_full.csv')
 
@@ -12,6 +13,10 @@ rsp_left=ld.loc[ld.event=='response_left_key'].session_time_sec
 rsp_right=ld.loc[ld.event=='response_right_key'].session_time_sec
 rnf_left=ld.loc[ld.event=='feeder_on_left'].session_time_sec
 rnf_right=ld.loc[ld.event=='feeder_on_right'].session_time_sec
+
+all_rsp=pd.concat([pd.Series(np.repeat('left',len(rsp_left))),
+	pd.Series(np.repeat('right',len(rsp_right)))])
+
 
 all_resp=pd.concat([rsp_left,rsp_right],ignore_index=True)
 all_reinf=pd.concat([rnf_left,rnf_right],ignore_index=True)
