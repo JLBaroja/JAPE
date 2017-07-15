@@ -14,7 +14,7 @@ rsp_right=ld.loc[ld.event=='response_right_key'].session_time_sec
 rnf_left=ld.loc[ld.event=='feeder_on_left'].session_time_sec
 rnf_right=ld.loc[ld.event=='feeder_on_right'].session_time_sec
 
-all_rsp=pd.concat([pd.Series(np.repeat('left',len(rsp_left))),
+lever=all_rsp=pd.concat([pd.Series(np.repeat('left',len(rsp_left))),
 	pd.Series(np.repeat('right',len(rsp_right)))])
 
 
