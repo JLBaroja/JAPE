@@ -6,4 +6,4 @@ I intend to expose pigeons to different pairs of concurrent VI-VI schdules withi
 So far the repo contains data from some sessions (eight sessions in autoshaping and 12 sessions in conc VI-VI), the correponding MED programs, and some exploratory code. 
 
 
-:)
+:-)
