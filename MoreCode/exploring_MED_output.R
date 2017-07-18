@@ -123,14 +123,14 @@
 
 ## Exploring Concurrent Output
 # rm(list=ls())
-concurrent_data_folder <- '~/Documents/Luis/JAPE/ConcurrentData'
-# concurrent_data_folder <- '~/Documents/Research/JAPE/ConcurrentData'
+# concurrent_data_folder <- '~/Documents/Luis/JAPE/ConcurrentData'
+concurrent_data_folder <- '~/Documents/Research/JAPE/ConcurrentData'
 setwd(concurrent_data_folder)
 ct_full <- read.csv('concurrent_full.csv',stringsAsFactors = F)
 
 birds <- sort(unique(ct_full$bird))
-bb <- birds[4]
-for(bb in birds){
+# bb <- birds[2]
+cumulative_responses_bird <- function(bb){
   ld <- subset(ct_full,bird==bb&event%in%c('session_start',
                                            'reinforcer_scheduled_left',
                                            'reinforcer_scheduled_right',
@@ -141,7 +141,9 @@ for(bb in birds){
                                            'session_end'))
   print(c(bb,dim(ld)))
   df=ld[order(ld$session),]
-  dresp=subset(df,event%in%c('response_left_key','response_right_key'))
+  dresp=subset(df,event%in%c('response_left_key','response_right_key',
+                             'feeder_on_left','feeder_on_right',
+                             'session_end'))
   for(ss in unique(dresp$session)){
     sd <- subset(dresp,session==ss)
     if(ss=='s01'){
@@ -158,27 +160,29 @@ for(bb in birds){
   cum_reinf_left <- NULL
   cum_reinf_right <- NULL
   c_tt <- 0
-  
   for(tt in dresp$cum_sec){
     c_tt <- c_tt+1
-    cum_resp_left[c_tt] <- nrow(dresp[dresp$cum_sec<=tt&dresp$event=='response_left_key',])
-    cum_resp_right[c_tt] <- nrow(dresp[dresp$cum_sec<=tt&dresp$event=='response_right_key',])
-    cum_reinf_left[c_tt] <- nrow(dresp[dresp$cum_sec<=tt&dresp$event=='feeder_on_left',])
-    cum_reinf_right[c_tt] <- nrow(dresp[dresp$cum_sec<=tt&dresp$event=='feeder_on_right',])
-    print(paste(round(tt/(60*60),3),'hours processed',collapse=' '))
+    cum_resp_left[c_tt] <- sum(dresp$cum_sec<=tt&dresp$event=='response_left_key')
+    cum_resp_right[c_tt] <- sum(dresp$cum_sec<=tt&dresp$event=='response_right_key')
+    cum_reinf_left[c_tt] <- sum(dresp$cum_sec<=tt&dresp$event=='feeder_on_left')
+    cum_reinf_right[c_tt] <- sum(dresp$cum_sec<=tt&dresp$event=='feeder_on_right')
+    print(paste(round(tt/(60*60),3),'hours processed,','bird',bb,collapse=' '))
   }
+  dresp$cum_resp_left <- cum_resp_left
+  dresp$cum_resp_right <- cum_resp_right
+  dresp$cum_reinf_left <- cum_reinf_left
+  dresp$cum_reinf_right <- cum_reinf_right
+  
+  return(dresp)
 }
 
-dresp$cum_resp_left <- cum_resp_left
-dresp$cum_resp_right <- cum_resp_right
-dresp$cum_reinf_left <- cum_reinf_left
-dresp$cum_reinf_right <- cum_reinf_right
+cum_responses_full <- NULL
+for(bb in birds){
+  cum_responses_full <- rbind(cum_responses_full,cumulative_responses_bird(bb))
+}
+write.csv(cum_responses_full,'cum_responses_full.csv',row.names=F)
 
-write.csv(dresp,'cum_resp_coco.csv',row.names=F)
-tail(cum_resp_left)
 
-par(mar=rep(0,4))
-plot(cum_resp_left,cum_resp_right,xlim=c(0,25000),ylim=c(0,25000));abline(0,1,lty='dashed')
 
 # 
 # cumulative_stuff <- function(brd,sssn){
