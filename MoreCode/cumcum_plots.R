@@ -1,6 +1,6 @@
-rm(list=ls())
-crf <- read.csv('cum_responses_full.csv',stringsAsFactors = F)
-
+# rm(list=ls())
+# crf <- read.csv('cum_responses_full.csv',stringsAsFactors = F)
+crf <- cum_responses_full
 birds <- sort(unique(crf$bird))
 
 x11(width=8,height=8)
@@ -14,9 +14,10 @@ for(bb in birds){
   se <- ld[which(ld$event=='session_end'),]
 
   par(plt=c(0.1,.9,0.1,.9),new=T)
-  plot(0,col='magenta',pch='4',cex=2,
+  plot(NULL,type='n',
        xlim=c(0,max(c(max(ld$cum_resp_left),max(ld$cum_resp_right)))),
        ylim=c(0,max(c(max(ld$cum_resp_left),max(ld$cum_resp_right)))))
+  # xlim=c(14000,18000),ylim=c(18000,24000))
   col_sess <- rep('#0000ee77',nrow(se))
   col_sess[which(se$session=='s15')] <- '#0000eeee'
   lwd_sess <- rep(0.5,nrow(se))

@@ -177,7 +177,7 @@ cumulative_responses_bird <- function(bb){
 }
 
 cum_responses_full <- NULL
-for(bb in birds){
+for(bb in birds[2]){
   cum_responses_full <- rbind(cum_responses_full,cumulative_responses_bird(bb))
 }
 write.csv(cum_responses_full,'cum_responses_full.csv',row.names=F)
