@@ -128,7 +128,7 @@ concurrent_data_folder <- '~/Documents/Research/JAPE/ConcurrentData'
 setwd(concurrent_data_folder)
 ct_full <- read.csv('concurrent_full.csv',stringsAsFactors = F)
 
-birds <- sort(unique(ct_full$bird))
+  birds <- sort(unique(ct_full$bird))
 # bb <- birds[2]
 cumulative_responses_bird <- function(bb){
   ld <- subset(ct_full,bird==bb&event%in%c('session_start',
@@ -176,11 +176,10 @@ cumulative_responses_bird <- function(bb){
   return(dresp)
 }
 
-cum_responses_full <- NULL
-for(bb in birds[2]){
-  cum_responses_full <- rbind(cum_responses_full,cumulative_responses_bird(bb))
+for(bb in birds[1]){
+  cum_responses_bird <- cumulative_responses_bird(bb)
+  write.csv(cum_responses_bird,paste('cum_responses_',bb,'.csv',sep=''),row.names=F)
 }
-write.csv(cum_responses_full,'cum_responses_full.csv',row.names=F)
 
 
 
