@@ -125,6 +125,7 @@ def concurrent_builder(output_archive):
 	"""
 	os.chdir('Raw MED files/')
 	files=os.listdir('.')
+	files.sort()
 	global_df=pd.DataFrame()
 	for archive in range(len(files)):
 		print files[archive]

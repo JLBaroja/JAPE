@@ -1,0 +1,265 @@
+\ Concurrent VI-VI Schedule
+\ José Luis Baroja
+\ June 2017
+
+\ 
+\ 
+\ 
+
+\ Program main parameters:
+\ 
+\ 
+\ 
+
+\ Lab Configuration
+\ inputs
+\ 1: Center key 
+\ 2: Left key
+\ 3: Right key
+\ outputs
+\ 1: Center light - white
+\ 2: Center light - red
+\ 3: Center light - green
+\ 4: Center light - blue
+\ 5: Left light - white
+\ 6: Left light - red
+\ 7: Left light - green
+\ 8: =none=
+\ 9: Right light - white
+\ 10: Right light - red
+\ 11: Right light - green
+\ 12: Feeder
+\ 13: =none=
+\ 14: Chamber light
+\ 15: Tone
+\ 16: Click
+
+\ Experiment Configuration
+\inputs
+^central_key=1
+^left_key=2
+^right_key=3
+\outputs
+^central_light=1
+^feeder=12
+^left_light=6
+^right_light=10
+^chamber_light=14
+
+\variables
+\T: session real time (sec/100)
+\E: index of array A (real time events)
+\S: session length
+
+\lists
+LIST L = 111,333,333
+LIST R = 333,111,111
+LIST M = 900,901,902,903,904,905,906,907,908,909,910,911,912,913,914,915,916,917,918,919,920,921,922,923,924,925,926,927,928,929,930,931,932,933,934,935,936,937,938,939,940,941,942,943,944,945,946,947,948,949,950,951,952,953,954,955,956,957,958,959,960,961,962,963,964,965,966,967,968,969,970,971,972,973,974,975,976,977,978,979,980,981,982,983,984,985,986,987,988,989,990,991,992,993,994,995,996,997,998,999,1000,1001,1002,1003,1004,1005,1006,1007,1008,1009,1010,1011,1012,1013,1014,1015,1016,1017,1018,1019,1020,1021,1022,1023,1024,1025,1026,1027,1028,1029,1030,1031,1032,1033,1034,1035,1036,1037,1038,1039,1040,1041,1042,1043,1044,1045,1046,1047,1048,1049,1050,1051,1052,1053,1054,1055,1056,1057,1058,1059,1060,1061,1062,1063,1064,1065,1066,1067,1068,1069,1070,1071,1072,1073,1074,1075,1076,1077,1078,1079,1080,1081,1082,1083,1084,1085,1086,1087,1088,1089,1090,1091,1092,1093,1094,1095,1096,1097,1098,1099,1100,1101,1102,1103,1104,1105,1106,1107,1108,1109,1110,1111,1112,1113,1114,1115,1116,1117,1118,1119,1120,1121,1122,1123,1124,1125,1126,1127,1128,1129,1130,1131,1132,1133,1134,1135,1136,1137,1138,1139,1140,1141,1142,1143,1144,1145,1146,1147,1148,1149,1150,1151,1152,1153,1154,1155,1156,1157,1158,1159,1160,1161,1162,1163,1164,1165,1166,1167,1168,1169,1170,1171,1172,1173,1174,1175,1176,1177,1178,1179,1180,1181,1182,1183,1184,1185,1186,1187,1188,1189,1190,1191,1192,1193,1194,1195,1196,1197,1198,1199,1200
+LIST N = 2100,2101,2102,2103,2104,2105,2106,2107,2108,2109,2110,2111,2112,2113,2114,2115,2116,2117,2118,2119,2120,2121,2122,2123,2124,2125,2126,2127,2128,2129,2130,2131,2132,2133,2134,2135,2136,2137,2138,2139,2140,2141,2142,2143,2144,2145,2146,2147,2148,2149,2150,2151,2152,2153,2154,2155,2156,2157,2158,2159,2160,2161,2162,2163,2164,2165,2166,2167,2168,2169,2170,2171,2172,2173,2174,2175,2176,2177,2178,2179,2180,2181,2182,2183,2184,2185,2186,2187,2188,2189,2190,2191,2192,2193,2194,2195,2196,2197,2198,2199,2200,2201,2202,2203,2204,2205,2206,2207,2208,2209,2210,2211,2212,2213,2214,2215,2216,2217,2218,2219,2220,2221,2222,2223,2224,2225,2226,2227,2228,2229,2230,2231,2232,2233,2234,2235,2236,2237,2238,2239,2240,2241,2242,2243,2244,2245,2246,2247,2248,2249,2250,2251,2252,2253,2254,2255,2256,2257,2258,2259,2260,2261,2262,2263,2264,2265,2266,2267,2268,2269,2270,2271,2272,2273,2274,2275,2276,2277,2278,2279,2280,2281,2282,2283,2284,2285,2286,2287,2288,2289,2290,2291,2292,2293,2294,2295,2296,2297,2298,2299,2300,2301,2302,2303,2304,2305,2306,2307,2308,2309,2310,2311,2312,2313,2314,2315,2316,2317,2318,2319,2320,2321,2322,2323,2324,2325,2326,2327,2328,2329,2330,2331,2332,2333,2334,2335,2336,2337,2338,2339,2340,2341,2342,2343,2344,2345,2346,2347,2348,2349,2350,2351,2352,2353,2354,2355,2356,2357,2358,2359,2360,2361,2362,2363,2364,2365,2366,2367,2368,2369,2370,2371,2372,2373,2374,2375,2376,2377,2378,2379,2380,2381,2382,2383,2384,2385,2386,2387,2388,2389,2390,2391,2392,2393,2394,2395,2396,2397,2398,2399,2400
+LIST D = 0,0
+
+\arrays
+DIM A = 20000 \ Real time events
+DIM C = 5 \ Counters
+	\ C(0) = Number responses central_key
+	\ C(1) = Number responses left_key
+	\ C(2) = Number responses right_key
+	\ C(3) = Number of reinforcers from left
+	\ C(4) = Number of reinforcers from right
+DIM V = 1 \ Change points LEFT
+	\ V(0) = Second of first change 
+	\ V(1) = Second of second change
+DIM W = 1 \ Change points RIGHT
+	\ W(0) = Second of first change 
+	\ W(1) = Second of second change
+
+\ Z-pulses
+\ Z1: launch everything after session start
+
+\event key (real Time array)
+\T.01: Session start
+\T.02: Session end
+\T.11: Response in central key 
+\T.12: Response in left key
+\T.13: Response in right key
+\T.21: Central light ON
+\T.22: Left light ON
+\T.23: Right light ON
+\T.24: Feeder ON
+\T.25: Chamber light ON
+\T.31: Central light OFF
+\T.32: Left light OFF
+\T.33: Right light OFF
+\T.34: Feeder OFF
+\T.35: Chamber light OFF 
+\T.54: Feeder ON from LEFT
+\T.64: Feeder ON from RIGHT
+\T.74: Reinforcer scheduled in LEFT
+\T.84: Reinforcer scheduled in RIGHT
+
+
+
+\ Session start; main time counter
+S.S.1,
+S1,
+#START: set E = 0;
+	set T = 0;
+	set S = 360000;
+	set C(0) = 0;
+	set C(1) = 0;
+	set C(2) = 0;
+	set C(3) = 0;
+	set C(4) = 0;
+	RANDI V(0) = M; \ Schedule first change
+	RANDI V(1) = N;	\ Schedule second change
+	set W(0) = V(0)+D(0);
+	set W(1) = V(1)+D(1);
+	SHOW 11, 1st_CP_left, V(0);
+	SHOW 12, 2nd_CP_left, V(1);
+	SHOW 16, 1st_CP_right, W(0);
+	SHOW 17, 2nd_CP_right, W(1);
+	add E; set A(E-1)=T+.01; \ Session starts
+	on^chamber_light; add E; set A(E-1)=T+0.25---> S2
+
+S2,
+8": Z1 ---> S3
+
+S3,
+0.01": on^left_light; add E; set A(E-1)=T+0.22;
+	on^right_light; add E; set A(E-1)=T+0.23 ---> S4 
+
+S4,
+0.01": add T;
+	if T=S[@finish,@keepgoing]
+	@finish: off^left_light; add E; set A(E-1)=T+0.32;
+		off^right_light; add E; set A(E-1)=T+0.33; 
+		off^chamber_light; add E; set A(E-1)=T+0.35;
+		add E; set A(E-1)=T+0.02;
+		add E; set A(E-1)=-987.987 ---> STOPABORTFLUSH \Session finishes
+	@keepgoing: ---> SX
+
+
+
+S.S.2, \ Updating LEFT schedule
+S1,
+#Z1: ---> S2
+
+S2,
+0.5": if T<V(0)*100[@before_first,@after_first]
+	@before_first: set I = 0 ---> SX
+	@after_first: if T<V(1)*100[@before_second,@after_second]
+			@before_second: set I = 1 ---> SX
+			@after_second: set I = 2 ---> SX
+
+
+
+S.S.3, \ Updating RIGHT schedule
+S1,
+#Z1: ---> S2
+
+S2,
+0.5": if T<W(0)*100[@before_first,@after_first]
+	@before_first: set J = 0 ---> SX
+	@after_first: if T<W(1)*100[@before_second,@after_second]
+			@before_second: set J = 1 ---> SX
+			@after_second: set J = 2 ---> SX
+
+
+
+S.S.4, \ LEFT key
+S1,
+#Z1: ---> S2
+
+S2,
+1": WITHPI=L(I)[@scheduled,@notscheduled]
+	@scheduled: add E; set A(E-1)=T+0.74 ---> S3 \ Reinforcer waiting next response in LEFT
+	@notscheduled: ---> SX
+
+S3,
+#R^left_key: add C(3); SHOW 6, reinf_left, C(3); add E; set A(E-1)=T+0.54; \ Reinforcer from LEFT 
+	off^left_light; add E; set A(E-1)=T+0.32;
+	off^right_light; add E; set A(E-1)=T+0.33;
+	off^chamber_light; add E; set A(E-1)=T+0.35;
+	on^feeder; add E; set A(E-1)=T+0.24 ---> S4
+
+S4,
+2.5":  on^left_light; add E; set A(E-1)=T+0.22;
+	on^right_light; add E; set A(E-1)=T+0.23;
+	on^chamber_light; add E; set A(E-1)=T+0.25;
+	off^feeder; add E; set A(E-1)=T+0.34 ---> S2
+
+
+
+S.S.5, \ RIGHT key
+S1,
+#Z1: ---> S2
+
+S2,
+1": WITHPI=R(J)[@scheduled,@notscheduled]
+	@scheduled: add E; set A(E-1)=T+0.84 ---> S3 \ Reinforcer waiting next response in RIGHT
+	@notscheduled: ---> SX
+
+S3,
+#R^right_key: add C(4); SHOW 7, reinf_right, C(4); add E; set A(E-1)=T+0.64; \ Reinforcer from RIGHT 
+	off^left_light; add E; set A(E-1)=T+0.32;
+	off^right_light; add E; set A(E-1)=T+0.33;
+	off^chamber_light; add E; set A(E-1)=T+0.35;
+	on^feeder; add E; set A(E-1)=T+0.24 ---> S4
+
+S4,
+2.5":  on^left_light; add E; set A(E-1)=T+0.22;
+	on^right_light; add E; set A(E-1)=T+0.23;
+	on^chamber_light; add E; set A(E-1)=T+0.25;
+	off^feeder; add E; set A(E-1)=T+0.34 ---> S2
+
+
+
+\ Recording all LEFT responses
+S.S.6,
+S1,
+#START: ---> S2
+
+S2,
+#R^left_key: add E; set A(E-1)=T+0.12;
+	 add C(1); SHOW 1, resp_left, C(1) ---> SX
+
+
+
+\ Recording all RIGHT responses
+S.S.7,
+S1,
+#START: ---> S2
+
+S2,
+#R^right_key: add E; set A(E-1)=T+0.13;
+	add C(2); SHOW 2, resp_right, C(2) ---> SX
+
+
+ 
+\ Recording all CEN responses
+S.S.8,
+S1,
+#START: ---> S2
+
+S2,
+#R^central_key: add E; set A(E-1)=T+0.11;
+	add C(0); SHOW 3, resp_central, C(0) ---> SX
+
+
+
+S.S.9,
+S1,
+#START: ---> S2
+
+S2,
+1": SHOW 41, time_left, (S-T)/100;
+	SHOW 46, time_elapsed, T/100;
+	SHOW 21, vi_left_1, 1/(L(0)/10000);
+	SHOW 22, vi_left_2, 1/(L(1)/10000);
+	SHOW 23, vi_left_3, 1/(L(2)/10000);
+	SHOW 26, vi_right_1, 1/(R(0)/10000);
+	SHOW 27, vi_right_2, 1/(R(1)/10000);
+	SHOW 28, vi_right_3, 1/(R(2)/10000);
+	SHOW 31, operating_vi_left,1/(L(I)/10000);
+	SHOW 36, operating_vi_right,1/(R(J)/10000) ---> SX
+

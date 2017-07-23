@@ -176,12 +176,10 @@ cumulative_responses_bird <- function(bb){
   return(dresp)
 }
 
-for(bb in birds[1]){
+for(bb in birds[6]){
   cum_responses_bird <- cumulative_responses_bird(bb)
   write.csv(cum_responses_bird,paste('cum_responses_',bb,'.csv',sep=''),row.names=F)
 }
-
-
 
 # 
 # cumulative_stuff <- function(brd,sssn){
