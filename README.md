@@ -1,9 +1,9 @@
 # JAPEDE  
-Just Another Pigeon Experiment in Dynamic Environmentse 
+Just Another Pigeon Experiment in Dynamic Environments 
 
-I intend to expose pigeons to different pairs of concurrent VI-VI schdules within the same session. The idea is to study how pigeons adapt to each different environments when these change swiftly and abruptly without explicit signaling.
+## Abstract
 
-So far the repo contains data from some sessions (eight sessions in autoshaping and 12 sessions in conc VI-VI), the correponding MED programs, and some exploratory code. 
+We exposed pigeons to different pairs of concurrent VI-VI schedules. On **stable environments**, the reward rate on each alternative remained fixed for several sessions, and we studied 
 
-
-:-)
+En este trabajo estudiamos la velocidad de ajuste a diferentes ambientes con pagos variables. Seis palomas fueron expuestas a diferentes programas concurrentes de intervalo aleatorio. En la primera fase, el mismo par 
+de programas fue presentado repetidamente durante varias sesiones. Despu

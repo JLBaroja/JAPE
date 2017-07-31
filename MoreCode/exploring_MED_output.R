@@ -128,7 +128,7 @@ concurrent_data_folder <- '~/Documents/Research/JAPE/ConcurrentData'
 setwd(concurrent_data_folder)
 ct_full <- read.csv('concurrent_full.csv',stringsAsFactors = F)
 
-  birds <- sort(unique(ct_full$bird))
+birds <- sort(unique(ct_full$bird))
 # bb <- birds[2]
 cumulative_responses_bird <- function(bb){
   ld <- subset(ct_full,bird==bb&event%in%c('session_start',
@@ -180,6 +180,16 @@ for(bb in birds[6]){
   cum_responses_bird <- cumulative_responses_bird(bb)
   write.csv(cum_responses_bird,paste('cum_responses_',bb,'.csv',sep=''),row.names=F)
 }
+
+
+
+
+
+# Update cum_responses_bb.csv
+bb <- 'p138'
+cr <- read.csv(paste('cum_responses_',bb,'.csv',sep=''))
+bd <- subset(ct_full,bird==bb)
+unique(bd$data_file)[which(!unique(bd$data_file)%in%unique(cr$data_file))]
 
 # 
 # cumulative_stuff <- function(brd,sssn){
