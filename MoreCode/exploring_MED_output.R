@@ -123,8 +123,8 @@
 
 ## Exploring Concurrent Output
 # rm(list=ls())
-# concurrent_data_folder <- '~/Documents/Luis/JAPE/ConcurrentData'
-concurrent_data_folder <- '~/Documents/Research/JAPE/ConcurrentData'
+concurrent_data_folder <- '~/Documents/Luis/JAPE/ConcurrentData'
+# concurrent_data_folder <- '~/Documents/Research/JAPE/ConcurrentData'
 setwd(concurrent_data_folder)
 ct_full <- read.csv('concurrent_full.csv',stringsAsFactors = F)
 
