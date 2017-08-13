@@ -117,6 +117,28 @@ def concurrent_extractor(file):
 
 
 
+bird='p138'
+#session=55
+
+path='ConcurrentData/Raw MED files/'
+os.chdir(path)
+
+all_raw_files=os.listdir('.')
+#all_raw_files.sort()
+
+
+session=1
+file_name=bird+'_s'+str(session).zfill(2)+'_japede'
+while file_name in all_raw_files:
+	bd=concurrent_extractor(file_name)
+	print file_name
+	session=session+1
+	file_name=bird+'_s'+str(session).zfill(2)+'_japede'
+os.chdir('..')
+os.chdir('..')
+
+
+
 
 def concurrent_builder(output_archive):
 	"""
