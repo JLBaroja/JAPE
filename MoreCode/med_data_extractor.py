@@ -116,7 +116,7 @@ def concurrent_extractor(file):
 	return rt
 
 
-
+"""
 bird='p138'
 #session=55
 
@@ -136,7 +136,7 @@ while file_name in all_raw_files:
 	file_name=bird+'_s'+str(session).zfill(2)+'_japede'
 os.chdir('..')
 os.chdir('..')
-
+"""
 
 
 
