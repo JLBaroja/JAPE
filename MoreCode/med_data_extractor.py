@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import os
 
 
@@ -116,28 +117,27 @@ def concurrent_extractor(file):
 	return rt
 
 
-"""
-bird='p138'
-#session=55
-
-path='ConcurrentData/Raw MED files/'
-os.chdir(path)
-
-all_raw_files=os.listdir('.')
-#all_raw_files.sort()
-
-
-session=1
-file_name=bird+'_s'+str(session).zfill(2)+'_japede'
-while file_name in all_raw_files:
-	bd=concurrent_extractor(file_name)
-	print file_name
-	session=session+1
-	file_name=bird+'_s'+str(session).zfill(2)+'_japede'
-os.chdir('..')
-os.chdir('..')
-"""
-
+sessions=np.arange(1,60,1)
+read_path='ConcurrentData/Raw MED files/'
+write_path='ConcurrentData/CSV files/'
+for bb in ['p004','p054','p138','p510','p530','p736']:
+	for ss in sessions:
+		read_file=bb+'_s'+str(ss).zfill(2)+'_japede'
+		write_file=bb+'s'+str(ss).zfill(2)+'.csv'
+		os.chdir(read_path)
+		is_there=read_file in os.listdir('.')
+		if is_there:
+			df=concurrent_extractor(read_file)
+			os.chdir('..')
+			os.chdir('..')
+			os.chdir(write_path)
+			df.to_csv(write_file)
+			print 'written'
+		os.chdir('..')
+		os.chdir('..')
+		print read_file
+		print write_file
+		print is_there
 
 
 def concurrent_builder(output_archive):
