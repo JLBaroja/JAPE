@@ -117,7 +117,7 @@ def concurrent_extractor(file):
 	return rt
 
 
-sessions=np.arange(1,60,1)
+sessions=np.arange(1,80,1)
 read_path='ConcurrentData/Raw MED files/'
 write_path='ConcurrentData/CSV files/'
 for bb in ['p004','p054','p138','p510','p530','p736']:
