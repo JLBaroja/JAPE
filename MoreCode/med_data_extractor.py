@@ -117,27 +117,31 @@ def concurrent_extractor(file):
 	return rt
 
 
+
 sessions=np.arange(1,80,1)
-read_path='ConcurrentData/Raw MED files/'
-write_path='ConcurrentData/CSV files/'
-for bb in ['p004','p054','p138','p510','p530','p736']:
-	for ss in sessions:
-		read_file=bb+'_s'+str(ss).zfill(2)+'_japede'
-		write_file=bb+'s'+str(ss).zfill(2)+'.csv'
-		os.chdir(read_path)
-		is_there=read_file in os.listdir('.')
-		if is_there:
-			df=concurrent_extractor(read_file)
+def build_csv_files(sessions):
+	read_path='ConcurrentData/Raw MED files/'
+	write_path='ConcurrentData/CSV files/'
+	for bb in ['p004','p054','p138','p510','p530','p736']:
+		for ss in sessions:
+			read_file=bb+'_s'+str(ss).zfill(2)+'_japede'
+			write_file=bb+'s'+str(ss).zfill(2)+'.csv'
+			os.chdir(read_path)
+			is_there=read_file in os.listdir('.')
+			if is_there:
+				df=concurrent_extractor(read_file)
+				os.chdir('..')
+				os.chdir('..')
+				os.chdir(write_path)
+				df.to_csv(write_file)
+				print 'written'
 			os.chdir('..')
 			os.chdir('..')
-			os.chdir(write_path)
-			df.to_csv(write_file)
-			print 'written'
-		os.chdir('..')
-		os.chdir('..')
-		print read_file
-		print write_file
-		print is_there
+			print read_file
+			print write_file
+			print is_there
+
+
 
 
 def concurrent_builder(output_archive):
