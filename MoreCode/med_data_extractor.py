@@ -118,7 +118,6 @@ def concurrent_extractor(file):
 
 
 
-sessions=np.arange(1,80,1)
 def build_csv_files(sessions):
 	read_path='ConcurrentData/Raw MED files/'
 	write_path='ConcurrentData/CSV files/'
@@ -141,7 +140,8 @@ def build_csv_files(sessions):
 			print write_file
 			print is_there
 
-
+sessions=np.arange(75,80,1)
+build_csv_files(sessions)
 
 
 def concurrent_builder(output_archive):
