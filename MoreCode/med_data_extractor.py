@@ -114,6 +114,13 @@ def concurrent_extractor(file):
 	rt.event.loc[rt.event_key=='640']='feeder_on_right'
 	rt.event.loc[rt.event_key=='740']='reinforcer_scheduled_left'
 	rt.event.loc[rt.event_key=='840']='reinforcer_scheduled_right'
+	arr_v=caterpillar(file,'V')
+	arr_w=caterpillar(file,'W')
+	rt['first_cp_left']=arr_v['raw_block'][0][0]
+	rt['second_cp_left']=arr_v['raw_block'][0][1]
+	rt['first_cp_right']=arr_w['raw_block'][0][0]
+	rt['second_cp_right']=arr_w['raw_block'][0][1]
+	#rt['algo_mas']='desmadre'
 	return rt
 
 
@@ -140,7 +147,8 @@ def build_csv_files(sessions):
 			print write_file
 			print is_there
 
-sessions=np.arange(75,80,1)
+
+sessions=np.arange(1,85,1)
 build_csv_files(sessions)
 
 
