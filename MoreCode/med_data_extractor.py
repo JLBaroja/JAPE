@@ -148,7 +148,7 @@ def build_csv_files(sessions):
 			print is_there
 
 
-sessions=np.arange(1,85,1)
+sessions=np.arange(81,95,1)
 build_csv_files(sessions)
 
 
