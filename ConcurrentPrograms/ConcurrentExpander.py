@@ -93,5 +93,8 @@ def expand_concurrent(vi_left,
 #expand_concurrent([30,30,30],[90,90,90])
 #expand_concurrent([30,90,90],[90,30,30])
 #expand_concurrent([90,90,90],[30,30,30])
-expand_concurrent([90,30,30],[30,90,90])
+#expand_concurrent([90,30,30],[30,90,90])
+expand_concurrent([90,45,45],[30,45,45])
+expand_concurrent([45,45,45],[45,45,45])
+
 
