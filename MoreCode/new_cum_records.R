@@ -109,9 +109,11 @@ get_cum_counts <- function(data_file,time_definition=1){
 birds <- c('p004','p054','p138','p510','p530','p736')
 # bb <- birds[4]
 for(bb in birds){
-  setwd('~/Documents/Luis/JAPE/ConcurrentData/RData files/')
+  # setwd('~/Documents/Luis/JAPE/ConcurrentData/RData files/')
+  setwd('~/Documents/Research/JAPE/ConcurrentData/RData files/')
   load(paste(bb,'_cum_resp_reinf_list.RData',sep=''))
-  setwd('~/Documents/Luis/JAPE/ConcurrentData/CSV files/')
+  # setwd('~/Documents/Luis/JAPE/ConcurrentData/CSV files/')
+  setwd('~/Documents/Research/JAPE/ConcurrentData/CSV files/')
   bird_archives <- dir()[grep(bb,dir())]
   files_to_add <- bird_archives[!bird_archives%in%names(cum_list)]
   # data_file <- files_to_add[1]
@@ -122,7 +124,8 @@ for(bb in birds){
     names(cum_list)[c_ss] <- data_file
     print(paste(bb,data_file))
   }
-  setwd('~/Documents/Luis/JAPE/ConcurrentData/RData files/')
+  # setwd('~/Documents/Luis/JAPE/ConcurrentData/RData files/')
+  setwd('~/Documents/Research/JAPE/ConcurrentData/RData files/')
   save(cum_list,file=paste(bb,'cum_resp_reinf_list.RData',sep='_'))
 }
 
@@ -143,8 +146,8 @@ for(bb in birds){
 rm(list=ls())
 dev.off()
 x11(width=13,height=3)
-setwd('~/Documents/Luis/JAPE/ConcurrentData/RData files/')
-# setwd('~/Documents/Research/jape/ConcurrentData/RData files/')
+# setwd('~/Documents/Luis/JAPE/ConcurrentData/RData files/')
+setwd('~/Documents/Research/jape/ConcurrentData/RData files/')
 birds <- c('p004','p054','p138','p510','p530','p736')
 layout(matrix(1:6,ncol=6))
 # bb <- birds[1]
@@ -172,12 +175,15 @@ for(bb in birds){
            resp_left,type='l',col=line_color)
     total_resp_right <- max(resp_right)
     total_resp_left <- max(resp_left)
-    pt_col <- 'green'
+    pt_col <- 'red'
     if(unique(cum_list[[ll]]$med_notation_file)=='japede_L_30_30_30_R_90_90_90'){
       pt_col <- 'blue'
     }
     else if(unique(cum_list[[ll]]$med_notation_file)=='japede_L_90_90_90_R_30_30_30'){
       pt_col <- 'orange'
+    }
+    else if(unique(cum_list[[ll]]$med_notation_file)=='japede_L_45_45_45_R_45_45_45'){
+      pt_col <- 'green'
     }
     points(total_resp_right,total_resp_left,pch=4,col=pt_col)
   }
