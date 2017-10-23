@@ -22,6 +22,9 @@ expand_MPC('atsh_R_Vrbl.MPC','LIST I = 20,25,30,35,40,45,50,55,60,65,70','P = 0'
 """
 
 import numpy as np
+import pandas as pd
+from datetime import datetime
+from datetime import timedelta
 
 def expand_concurrent(vi_left,
 			vi_right,
@@ -94,7 +97,75 @@ def expand_concurrent(vi_left,
 #expand_concurrent([30,90,90],[90,30,30])
 #expand_concurrent([90,90,90],[30,30,30])
 #expand_concurrent([90,30,30],[30,90,90])
-expand_concurrent([90,45,45],[30,45,45])
-expand_concurrent([45,45,45],[45,45,45])
+#expand_concurrent([90,45,45],[30,45,45])
+#expand_concurrent([45,45,45],[45,45,45])
+
+
+rich_side=[24,25,27,30,35]
+poor_side=[360,225,135,90,63]
+
+rich_right=pd.DataFrame()
+rich_left=pd.DataFrame()
+rich_right['left']=poor_side
+rich_right['right']=rich_side
+rich_left['left']=rich_side
+rich_left['right']=poor_side
+
+
+dynamic_schedule=pd.DataFrame([],columns=['bird','session','med_program','date'])
+start_date="2017-10-22"
+start=datetime.strptime(start_date,'%Y-%m-%d')
+sessions=np.arange(116,301,1)
+row=0
+for bird in ['p004','p054','p138','p510','p530','p736']:
+	for ss in sessions:
+		start=start+timedelta(days=1)
+		if ss==116:
+			start_left=45
+			start_right=45
+			#final_left=45
+			#final_right=45
+		else:
+			start_left=final_left
+			start_right=final_right
+		change=np.random.binomial(1,0.5)
+		if change==0:
+			final_left=start_left
+			final_right=start_right
+		else:
+			indx=np.random.choice(range(len(rich_left['left'])))
+			if sum(rich_left['left']==start_left)==1: # If started at rich left
+				final_left=rich_right.iloc[indx]['left']
+				final_right=rich_right.iloc[indx]['right']
+			else: # If started at rich right
+				final_left=rich_left.iloc[indx]['left']
+				final_right=rich_left.iloc[indx]['right']
+
+		med_program_file='L_'+str(start_left)+2*('_'+str(final_left))+'_R_'+str(start_right)+2*('_'+str(final_right))
+		date_label=str(start).split(' ')[0]
+		dynamic_schedule['bird'].appe=bird
+		dynamic_schedule['session'][row]=ss
+		dynamic_schedule['med_program'][row]=med_program_file
+		dynamic_schedule['date'][row]=date_label
+		#dynamic_schedule[''][row]=
+		#dynamic_schedule[''][row]=
+		#dynamic_schedule[''][row]=
+		row=row+1
+		print bird+'s'+str(ss)+str(change)+med_program_file+date_label
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

@@ -152,7 +152,8 @@ birds <- c('p004','p054','p138','p510','p530','p736')
 layout(matrix(1:6,ncol=6))
 # bb <- birds[1]
 for(bb in birds){
-  plot(NULL,xlim=c(0,300000),ylim=c(0,300000))
+  # plot(NULL,xlim=c(0,300000),ylim=c(0,300000))
+  plot(NULL,xlim=c(0,200),ylim=c(0,200))
   abline(0,1,lty='dashed')
   load(paste(bb,'_cum_resp_reinf_list.RData',sep=''))
   
@@ -169,12 +170,12 @@ for(bb in birds){
     # 'japede_L_90_90_90_R_30_30_30'))){
     # resp_right <- cum_list[[ll]]$cum_resp_right#+total_resp_right
     # resp_left <- cum_list[[ll]]$cum_resp_left#+total_resp_left
-    resp_right <- cum_list[[ll]]$cum_resp_right+total_resp_right
-    resp_left <- cum_list[[ll]]$cum_resp_left+total_resp_left
-    # resp_right <- cum_list[[ll]]$cum_reinf_right+total_resp_right
-    # resp_left <- cum_list[[ll]]$cum_reinf_left+total_resp_left
+    # resp_right <- cum_list[[ll]]$cum_resp_right+total_resp_right
+    # resp_left <- cum_list[[ll]]$cum_resp_left+total_resp_left
+    resp_right <- cum_list[[ll]]$cum_reinf_right#+total_resp_right
+    resp_left <- cum_list[[ll]]$cum_reinf_left#+total_resp_left
     # line_color <- hsv(h=1,v=1-(ll/76),s=0)
-    line_color <- '#000000'
+    line_color <- '#00000022'
     points(resp_right,
            resp_left,type='l',col=line_color)
     total_resp_right <- max(resp_right)
