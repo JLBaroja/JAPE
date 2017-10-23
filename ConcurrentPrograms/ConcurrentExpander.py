@@ -113,11 +113,12 @@ rich_left['right']=poor_side
 
 
 dynamic_schedule=pd.DataFrame([],columns=['bird','session','med_program','date'])
-start_date="2017-10-22"
-start=datetime.strptime(start_date,'%Y-%m-%d')
+np.random.seed(0)
 sessions=np.arange(116,301,1)
 row=0
 for bird in ['p004','p054','p138','p510','p530','p736']:
+	start_date="2017-10-22"
+	start=datetime.strptime(start_date,'%Y-%m-%d')
 	for ss in sessions:
 		start=start+timedelta(days=1)
 		if ss==116:
@@ -143,17 +144,12 @@ for bird in ['p004','p054','p138','p510','p530','p736']:
 
 		med_program_file='L_'+str(start_left)+2*('_'+str(final_left))+'_R_'+str(start_right)+2*('_'+str(final_right))
 		date_label=str(start).split(' ')[0]
-		dynamic_schedule['bird'].appe=bird
-		dynamic_schedule['session'][row]=ss
-		dynamic_schedule['med_program'][row]=med_program_file
-		dynamic_schedule['date'][row]=date_label
-		#dynamic_schedule[''][row]=
-		#dynamic_schedule[''][row]=
-		#dynamic_schedule[''][row]=
+		dy_sch=pd.DataFrame([[bird,str(ss),med_program_file,date_label]],columns=['bird','session','med_program','date'])
+		dynamic_schedule=dynamic_schedule.append(dy_sch,ignore_index=True)
+		expand_concurrent([start_left,final_left,final_left],[start_right,final_right,final_right],lower_first=20,upper_first=40,lower_second=45,upper_second=50)
 		row=row+1
-		print bird+'s'+str(ss)+str(change)+med_program_file+date_label
-
-
+		#print bird+'s'+str(ss)+str(change)+med_program_file+date_label
+dynamic_schedule.to_csv('dynamic_schedule.csv')
 
 
 
