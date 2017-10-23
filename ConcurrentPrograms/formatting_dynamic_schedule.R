@@ -1,5 +1,5 @@
 rm(list=ls())
-setwd("~/JAPE/ConcurrentPrograms")
+setwd("~/Documents/Luis/JAPE/ConcurrentPrograms")
 dy_sch <- read.csv('dynamic_schedule.csv')
 dynamic_schedule <- NULL
 # ss <- unique(dy_sch$session)

@@ -113,7 +113,8 @@ rich_left['right']=poor_side
 
 
 dynamic_schedule=pd.DataFrame([],columns=['bird','session','med_program','date'])
-np.random.seed(0)
+np_seed=1
+np.random.seed(np_seed)
 sessions=np.arange(116,301,1)
 row=0
 for bird in ['p004','p054','p138','p510','p530','p736']:
