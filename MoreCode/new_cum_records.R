@@ -175,9 +175,6 @@ for(bb in birds){
     resp_right <- cum_list[[ll]]$cum_reinf_right#+total_resp_right
     resp_left <- cum_list[[ll]]$cum_reinf_left#+total_resp_left
     # line_color <- hsv(h=1,v=1-(ll/76),s=0)
-    line_color <- '#00000022'
-    points(resp_right,
-           resp_left,type='l',col=line_color)
     total_resp_right <- max(resp_right)
     total_resp_left <- max(resp_left)
     pt_col <- 'red'
@@ -190,7 +187,14 @@ for(bb in birds){
     else if(unique(cum_list[[ll]]$med_notation_file)=='japede_L_45_45_45_R_45_45_45'){
       pt_col <- 'green'
     }
-    points(total_resp_right,total_resp_left,pch=4,col=pt_col)
+    pt_cex <- 1
+    line_transp <- '22'
+    lwd=1
+    if(ss >= 116){pt_cex=3;line_transp <- 'ff';lwd=2}
+    line_color <- paste('#000000',line_transp,sep='')
+    points(resp_right,
+           resp_left,type='l',col=line_color,lwd=lwd)
+    points(total_resp_right,total_resp_left,pch=4,col=pt_col,cex=pt_cex,lwd=lwd)
   }
   # }
 }
