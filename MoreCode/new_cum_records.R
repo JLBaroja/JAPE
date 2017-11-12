@@ -109,11 +109,11 @@ get_cum_counts <- function(data_file,time_definition=1){
 birds <- c('p004','p054','p138','p510','p530','p736')
 # bb <- birds[4]
 for(bb in birds){
-  setwd('~/Documents/Luis/JAPE/ConcurrentData/RData files/')
-  # setwd('~/Documents/Research/JAPE/ConcurrentData/RData files/')
+  # setwd('~/Documents/Luis/JAPE/ConcurrentData/RData files/')
+  setwd('~/Documents/Research/JAPE/ConcurrentData/RData files/')
   load(paste(bb,'_cum_resp_reinf_list.RData',sep=''))
-  setwd('~/Documents/Luis/JAPE/ConcurrentData/CSV files/')
-  # setwd('~/Documents/Research/JAPE/ConcurrentData/CSV files/')
+  # setwd('~/Documents/Luis/JAPE/ConcurrentData/CSV files/')
+  setwd('~/Documents/Research/JAPE/ConcurrentData/CSV files/')
   bird_archives <- dir()[grep(bb,dir())]
   files_to_add <- bird_archives[!bird_archives%in%names(cum_list)]
   # data_file <- files_to_add[1]
@@ -124,8 +124,8 @@ for(bb in birds){
     names(cum_list)[c_ss] <- data_file
     print(paste(bb,data_file))
   }
-  setwd('~/Documents/Luis/JAPE/ConcurrentData/RData files/')
-  # setwd('~/Documents/Research/JAPE/ConcurrentData/RData files/')
+  # setwd('~/Documents/Luis/JAPE/ConcurrentData/RData files/')
+  setwd('~/Documents/Research/JAPE/ConcurrentData/RData files/')
   save(cum_list,file=paste(bb,'cum_resp_reinf_list.RData',sep='_'))
 }
 
@@ -145,35 +145,36 @@ for(bb in birds){
 
 rm(list=ls())
 dev.off()
-x11(width=20,height=4)
-setwd('~/Documents/Luis/JAPE/ConcurrentData/RData files/')
-# setwd('~/Documents/Research/jape/ConcurrentData/RData files/')
+x11(width=10,height=8)
+# setwd('~/Documents/Luis/JAPE/ConcurrentData/RData files/')
+setwd('~/Documents/Research/jape/ConcurrentData/RData files/')
 birds <- c('p004','p054','p138','p510','p530','p736')
-layout(matrix(1:6,ncol=6))
+layout(matrix(1:6,ncol=3))
 # bb <- birds[1]
 for(bb in birds){
   # plot(NULL,xlim=c(0,300000),ylim=c(0,300000))
-  plot(NULL,xlim=c(0,200),ylim=c(0,200))
+  plot(NULL,xlim=c(0,500),ylim=c(0,500))
   abline(0,1,lty='dashed')
+  mtext(bb,3)
   load(paste(bb,'_cum_resp_reinf_list.RData',sep=''))
   
   total_resp_right <- 0
   total_resp_left <- 0
   
   # for(ll in 1:length(cum_list)){
-  for(ss in 1:length(cum_list)){
+  for(ss in 110:length(cum_list)){
     session_name <- paste(bb,'s',sprintf('%02d',ss),'.csv',sep='')
     ll <- which(names(cum_list)==session_name)
     # for(ll in 1:15){
     # for(ll in c(1:15,60:76)){
     # if(!unique(cum_list[[ll]]$med_file%in%c('japede_L_30_30_30_R_90_90_90',
     # 'japede_L_90_90_90_R_30_30_30'))){
-    # resp_right <- cum_list[[ll]]$cum_resp_right#+total_resp_right
-    # resp_left <- cum_list[[ll]]$cum_resp_left#+total_resp_left
+    resp_right <- cum_list[[ll]]$cum_resp_right#+total_resp_right
+    resp_left <- cum_list[[ll]]$cum_resp_left#+total_resp_left
     # resp_right <- cum_list[[ll]]$cum_resp_right+total_resp_right
     # resp_left <- cum_list[[ll]]$cum_resp_left+total_resp_left
-    resp_right <- cum_list[[ll]]$cum_reinf_right#+total_resp_right
-    resp_left <- cum_list[[ll]]$cum_reinf_left#+total_resp_left
+    # resp_right <- cum_list[[ll]]$cum_reinf_right#+total_resp_right
+    # resp_left <- cum_list[[ll]]$cum_reinf_left#+total_resp_left
     # line_color <- hsv(h=1,v=1-(ll/76),s=0)
     total_resp_right <- max(resp_right)
     total_resp_left <- max(resp_left)
@@ -190,7 +191,7 @@ for(bb in birds){
     pt_cex <- 1
     line_transp <- '22'
     lwd=1
-    if(ss >= 116){pt_cex=3;line_transp <- 'ff';lwd=2}
+    if(ss >= 116){pt_cex=1.5;line_transp <- 'ff';lwd=1.5}
     line_color <- paste('#000000',line_transp,sep='')
     points(resp_right,
            resp_left,type='l',col=line_color,lwd=lwd)
