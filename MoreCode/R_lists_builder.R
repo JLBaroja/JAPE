@@ -109,11 +109,11 @@ get_cum_counts <- function(data_file,time_definition=1){
 birds <- c('p004','p054','p138','p510','p530','p736')
 # bb <- birds[4]
 for(bb in birds){
-  setwd('~/Documents/Luis/JAPE/ConcurrentData/RData files/')
-  # setwd('~/Documents/Research/JAPE/ConcurrentData/RData files/')
+  # setwd('~/Documents/Luis/JAPE/ConcurrentData/RData files/')
+  setwd('~/Documents/Research/JAPE/ConcurrentData/RData files/')
   load(paste(bb,'_cum_resp_reinf_list.RData',sep=''))
-  setwd('~/Documents/Luis/JAPE/ConcurrentData/CSV files/')
-  # setwd('~/Documents/Research/JAPE/ConcurrentData/CSV files/')
+  # setwd('~/Documents/Luis/JAPE/ConcurrentData/CSV files/')
+  setwd('~/Documents/Research/JAPE/ConcurrentData/CSV files/')
   bird_archives <- dir()[grep(bb,dir())]
   files_to_add <- bird_archives[!bird_archives%in%names(cum_list)]
   # data_file <- files_to_add[1]
@@ -124,8 +124,8 @@ for(bb in birds){
     names(cum_list)[c_ss] <- data_file
     print(paste(bb,data_file))
   }
-  setwd('~/Documents/Luis/JAPE/ConcurrentData/RData files/')
-  # setwd('~/Documents/Research/JAPE/ConcurrentData/RData files/')
+  # setwd('~/Documents/Luis/JAPE/ConcurrentData/RData files/')
+  setwd('~/Documents/Research/JAPE/ConcurrentData/RData files/')
   save(cum_list,file=paste(bb,'cum_resp_reinf_list.RData',sep='_'))
 }
 
@@ -154,8 +154,8 @@ sss <- 1:136
 for(bb in birds){
   events_list <- vector(mode='list')
   c_ss <- 0
-  setwd('~/Documents/Luis/JAPE/ConcurrentData/CSV files/')
-  # setwd('~/Documents/Research/jape/ConcurrentData/CSV files/')
+  # setwd('~/Documents/Luis/JAPE/ConcurrentData/CSV files/')
+  setwd('~/Documents/Research/JAPE/ConcurrentData/CSV files/')
   for(ss in sss){
     c_ss <- c_ss+1
     data_file <- paste(bb,'s',sprintf('%02d',ss),'.csv',sep='')
@@ -173,28 +173,9 @@ for(bb in birds){
       print(paste(bb,ss,data_file,dim(events_list[[c_ss]])[1]))
     }
   }
-  # setwd('~/Documents/Research/jape/ConcurrentData/RData files/')
-  setwd('~/Documents/Luis/JAPE/ConcurrentData/RData files/')
+  setwd('~/Documents/Research/JAPE/ConcurrentData/RData files/')
+  # setwd('~/Documents/Luis/JAPE/ConcurrentData/RData files/')
   save(events_list,file=paste(bb,'events_list.RData',sep='_'))
 }
 
-
-
-
-# # Building general list
-# rm(list=ls())
-# japede_events <- vector(mode='list')
-# japede_cum_events <- vector(mode='list')
-# setwd('~/Documents/Luis/JAPE/ConcurrentData/RData files/')
-# birds <- c('p004','p054','p138','p510','p530','p736')
-# c_bb <- 0
-# # bb <- birds[4]
-# for(bb in birds){
-#   c_bb <- c_bb+1
-#   load(paste(bb,'cum_resp_reinf_list.RData',sep='_'))
-#   load(paste(bb,'events_list.RData',sep='_'))
-#   japede_events[[c_bb]] <- events_list
-#   japede_cum_events[[c_bb]] <- cum_list
-#   names(japede_events)[c_bb] <- bb
-#   names(japede_cum_events)[c_bb] <- bb
-# }
+ 
