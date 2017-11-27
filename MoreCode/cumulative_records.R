@@ -1,6 +1,6 @@
 rm(list=ls())
-# setwd('~/Documents/Luis/JAPE/ConcurrentData/RData files/')
-setwd('~/Documents/Research/JAPE/ConcurrentData/RData files/')
+setwd('~/Documents/Luis/JAPE/ConcurrentData/RData files/')
+# setwd('~/Documents/Research/JAPE/ConcurrentData/RData files/')
 
 x11(width=15,height=6)
 par(mar=c(3,3,1,1))
@@ -8,7 +8,7 @@ layout(matrix(1:12,ncol=6))
 for(bb in c('p004','p054','p138','p510','p530','p736')){
 
   # bb <- 'p530'
-  sessions <- 133:142
+  sessions <- 130:149
   add_sessions <- TRUE
   load(paste(bb,'cum_resp_reinf_list.RData',sep='_'))
   load(paste(bb,'events_list.RData',sep='_'))
