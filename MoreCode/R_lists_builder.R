@@ -150,7 +150,7 @@ for(bb in birds){
 # Building events lists
 rm(list=ls())
 birds <- c('p004','p054','p138','p510','p530','p736')
-sss <- 1:149
+sss <- 1:179
 for(bb in birds){
   events_list <- vector(mode='list')
   c_ss <- 0

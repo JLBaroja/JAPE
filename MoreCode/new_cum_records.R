@@ -146,6 +146,7 @@
 rm(list=ls())
 dev.off()
 x11(width=10,height=8)
+# par(bg='#000000')
 setwd('~/Documents/Luis/JAPE/ConcurrentData/RData files/')
 # setwd('~/Documents/Research/jape/ConcurrentData/RData files/')
 birds <- c('p004','p054','p138','p510','p530','p736')
@@ -153,7 +154,7 @@ layout(matrix(1:6,ncol=3))
 # bb <- birds[1]
 for(bb in birds){
   # plot(NULL,xlim=c(0,300000),ylim=c(0,300000))
-  plot(NULL,xlim=c(0,100000),ylim=c(0,100000))
+  plot(NULL,xlim=c(0,2000),ylim=c(0,2000))
   abline(0,1,lty='dashed')
   mtext(bb,3)
   load(paste(bb,'_cum_resp_reinf_list.RData',sep=''))
@@ -162,22 +163,29 @@ for(bb in birds){
   total_resp_left <- 0
   
   # for(ll in 1:length(cum_list)){
-  for(ss in 110:length(cum_list)){
+  for(ss in 1:length(cum_list)){
     session_name <- paste(bb,'s',sprintf('%02d',ss),'.csv',sep='')
     ll <- which(names(cum_list)==session_name)
     # for(ll in 1:15){
     # for(ll in c(1:15,60:76)){
     # if(!unique(cum_list[[ll]]$med_file%in%c('japede_L_30_30_30_R_90_90_90',
     # 'japede_L_90_90_90_R_30_30_30'))){
-    # resp_right <- cum_list[[ll]]$cum_resp_right#+total_resp_right
-    # resp_left <- cum_list[[ll]]$cum_resp_left#+total_resp_left
-    resp_right <- cum_list[[ll]]$cum_resp_right+total_resp_right
-    resp_left <- cum_list[[ll]]$cum_resp_left+total_resp_left
+    resp_right <- cum_list[[ll]]$cum_resp_right#+total_resp_right
+    resp_left <- cum_list[[ll]]$cum_resp_left#+total_resp_left
+    # resp_right <- cum_list[[ll]]$cum_resp_right+total_resp_right
+    # resp_left <- cum_list[[ll]]$cum_resp_left+total_resp_left
     # resp_right <- cum_list[[ll]]$cum_reinf_right#+total_resp_right
     # resp_left <- cum_list[[ll]]$cum_reinf_left#+total_resp_left
     # line_color <- hsv(h=1,v=1-(ll/76),s=0)
     total_resp_right <- max(resp_right)
     total_resp_left <- max(resp_left)
+    
+    japede <- strsplit(as.character(unique(cum_list[[ll]]$med_notation_file)),split='_')[[1]]
+    first_left <- japede[3]
+    second_left <- japede[4]
+    first_right <- japede[8]
+    second_right <- japede[9]
+    
     pt_col <- 'red'
     if(unique(cum_list[[ll]]$med_notation_file)=='japede_L_30_30_30_R_90_90_90'){
       pt_col <- 'blue'
@@ -189,13 +197,15 @@ for(bb in birds){
       pt_col <- 'green'
     }
     pt_cex <- 1
+    base_color <- '#000000'
     line_transp <- '22'
     lwd=1
-    if(ss >= 116){pt_cex=1.5;line_transp <- 'ff';lwd=1.5}
-    line_color <- paste('#000000',line_transp,sep='')
+    if(ss >= 116){pt_cex=1.5;line_transp <- '88';base_color <- '#0044dd'}
+    if(first_left!=second_left){pt_cex=1.5;line_transp <- 'ff';base_color <- '#dd4400'}
+    line_color <- paste(base_color,line_transp,sep='')
     points(resp_right,
            resp_left,type='l',col=line_color,lwd=lwd)
-    points(total_resp_right,total_resp_left,pch=4,col=pt_col,cex=pt_cex,lwd=lwd)
+    # points(total_resp_right,total_resp_left,pch=4,col=pt_col,cex=pt_cex,lwd=lwd)
   }
   # }
 }
