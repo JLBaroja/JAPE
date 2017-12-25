@@ -44,6 +44,8 @@ def expand_concurrent(vi_left,
 	vi_R=np.array(vi_right)
 	vi_L_list=10000/vi_L
 	vi_R_list=10000/vi_R
+	vi_L_list=vi_L_list.astype('int')
+	vi_R_list=vi_R_list.astype('int')
 	vi_L_l=vi_L_list.astype('str')
 	vi_R_l=vi_R_list.astype('str')
 	list_l='LIST L = '+vi_L_l[0]+','+vi_L_l[1]+','+vi_L_l[2]
@@ -85,6 +87,8 @@ def expand_concurrent(vi_left,
 	data[data.index('\\\\ Line for LIST R\n')]=list_r+'\n'
 	data[data.index('\\\\ Line for variable S\n')]='\tset S = '+variable_s+';\n'
 
+	vi_L=vi_L.astype('int')
+	vi_R=vi_R.astype('int')
 	vi_L=vi_L.astype('str')
 	vi_R=vi_R.astype('str')
 	file_label='japede_L_'+vi_L[0]+'_'+vi_L[1]+'_'+vi_L[2]+'_'+'R_'+vi_R[0]+'_'+vi_R[1]+'_'+vi_R[2]+'.MPC'
@@ -99,6 +103,9 @@ def expand_concurrent(vi_left,
 #expand_concurrent([90,30,30],[30,90,90])
 #expand_concurrent([90,45,45],[30,45,45])
 #expand_concurrent([45,45,45],[45,45,45])
+
+
+expand_concurrent([90,float('Inf'),float('Inf')],[30,float('Inf'),float('Inf')])
 
 
 rich_side=[24,25,27,30,35]
