@@ -33,7 +33,8 @@ def expand_concurrent(vi_left,
 			upper_first=20,
 			lower_second=35,
 			upper_second=40,
-			session_length=60):
+			session_length=60,
+			file='default'):
 	with open('Concurrent_VI_VI.MPC','r') as base:
 		data=base.readlines()
 
@@ -91,7 +92,11 @@ def expand_concurrent(vi_left,
 	vi_R=vi_R.astype('int')
 	vi_L=vi_L.astype('str')
 	vi_R=vi_R.astype('str')
-	file_label='japede_L_'+vi_L[0]+'_'+vi_L[1]+'_'+vi_L[2]+'_'+'R_'+vi_R[0]+'_'+vi_R[1]+'_'+vi_R[2]+'.MPC'
+	if file=='default':
+		file_label='japede_L_'+vi_L[0]+'_'+vi_L[1]+'_'+vi_L[2]+'_'+'R_'+vi_R[0]+'_'+vi_R[1]+'_'+vi_R[2]+'.MPC'
+	else:
+		file_label=file
+
 	with open(file_label,'w') as modified:
 		modified.writelines(data)
 
@@ -105,7 +110,10 @@ def expand_concurrent(vi_left,
 #expand_concurrent([45,45,45],[45,45,45])
 
 
-expand_concurrent([90,float('Inf'),float('Inf')],[30,float('Inf'),float('Inf')])
+expand_concurrent([90,float('Inf'),float('Inf')],[30,float('Inf'),float('Inf')],lower_first=20,upper_first=30,file='japede_L_90_inf_inf_R_30_inf_inf.MPC')
+expand_concurrent([135,float('Inf'),float('Inf')],[27,float('Inf'),float('Inf')],lower_first=20,upper_first=30,file='japede_L_135_inf_inf_R_27_inf_inf.MPC')
+expand_concurrent([25,float('Inf'),float('Inf')],[225,float('Inf'),float('Inf')],lower_first=20,upper_first=30,file='japede_L_25_inf_inf_R_225_inf_inf.MPC')
+
 
 
 rich_side=[24,25,27,30,35]
@@ -158,7 +166,6 @@ for bird in ['p004','p054','p138','p510','p530','p736']:
 		row=row+1
 		#print bird+'s'+str(ss)+str(change)+med_program_file+date_label
 dynamic_schedule.to_csv('dynamic_schedule.csv')
-
 
 
 
