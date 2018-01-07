@@ -154,7 +154,7 @@ layout(matrix(1:6,ncol=3))
 # bb <- birds[1]
 for(bb in birds){
   # plot(NULL,xlim=c(0,300000),ylim=c(0,300000))
-  plot(NULL,xlim=c(0,2000),ylim=c(0,2000))
+  plot(NULL,xlim=c(0,3000),ylim=c(0,3000))
   abline(0,1,lty='dashed')
   mtext(bb,3)
   load(paste(bb,'_cum_resp_reinf_list.RData',sep=''))
@@ -163,7 +163,7 @@ for(bb in birds){
   total_resp_left <- 0
   
   # for(ll in 1:length(cum_list)){
-  for(ss in 1:length(cum_list)){
+  for(ss in 160:length(cum_list)){
     session_name <- paste(bb,'s',sprintf('%02d',ss),'.csv',sep='')
     ll <- which(names(cum_list)==session_name)
     # for(ll in 1:15){
