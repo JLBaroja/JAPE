@@ -14,7 +14,7 @@ plt_session <- function(bb,ss,
   if(class(end)=='NULL'){
     end <- tail(bsdat$session_time_sec,1)}
   
-  dev.off()
+  try(dev.off())
   x11(width = 8,height=8)
   layout(rbind(rep(1,3),rep(2,3),rep(3,3),c(4:6)))
   par(bg='#000000',fg='#337733',col.axis='#00bb00',
@@ -124,7 +124,7 @@ plt_session <- function(bb,ss,
 }
 
 # plt_session('p054',145)
-plt_session('p510',169)
+plt_session('p510',177)
 # plt_session('p530',177,start = 900,end=2700)
 
 # Old-fashined cum records
