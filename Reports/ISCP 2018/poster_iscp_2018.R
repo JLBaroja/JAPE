@@ -2,7 +2,7 @@
 library('extrafont')
 library('png')
 library('grImport')
-source('~/Documents/Programming/R/BistecitoFunctions/ehpmp/ehpmp.R')
+source('~/Documents/Research/JAPE/MoreCode/ehpmp.R')
 setwd('~/Documents/Research/JAPE/Reports/ISCP 2018/')
 source('sample_session.R')
 source('cum_records.R')

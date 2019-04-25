@@ -1,4 +1,5 @@
 *.Rhistory
 *.pdf
+*.bug
 !sinca_2017.pdf
 !sample_session.pdf

@@ -1,8 +1,9 @@
 
 
-plot_session <- function(s_data,
+plot_session <- function(bb,ss,
                          time_zoom = NULL,
                          reinf_details=F){
+  s_data <- read.csv(paste('~/Documents/Research/JAPE/ConcurrentData/CSV files/',bb,ss,'.csv',sep=''))
   if(length(time_zoom)!=2){
     if(class(time_zoom)=='NULL'){time_zoom=c(0,max(s_data$session_time_sec))}
     else if(time_zoom=='end'){time_zoom=c(max(s_data$session_time_sec)-200,
@@ -18,13 +19,13 @@ plot_session <- function(s_data,
     x1=s_data$session_time_sec[s_data$event=='response_left_key'],
     y0=rep(0.2-.1,sum(s_data$event=='response_left_key')),
     y1=rep(0.2+.1,sum(s_data$event=='response_left_key')),
-    lwd=0.5,col='#88dd88')
+    lwd=1.5,col='#88dd88')
   segments(
     x0=s_data$session_time_sec[s_data$event=='response_right_key'],
     x1=s_data$session_time_sec[s_data$event=='response_right_key'],
     y0=rep(-0.2-.1,sum(s_data$event=='response_right_key')),
     y1=rep(-0.2+.1,sum(s_data$event=='response_right_key')),
-    lwd=0.5,col='#88dd88')
+    lwd=1.5,col='#88dd88')
   points(s_data$session_time_sec[s_data$event=='reinforcer_scheduled_left'],
          rep(0.4,sum(s_data$event=='reinforcer_scheduled_left')),pch=4,lwd=1,col='#dd8800')
   points(s_data$session_time_sec[s_data$event=='reinforcer_scheduled_right'],
