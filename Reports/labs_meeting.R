@@ -61,7 +61,7 @@ plot_experiment <- function(last_row=F){
   text(.75,-.4+.2,'236 dynamic sessions',adj=0)
   text(.8,-.7+.2,'reward rates switched at some\nrandom second (unsignaled)',font=3,adj=0,cex=.8)
   if(last_row){
-    text(.7,-1.1+.2,'150379 rewards, 3132940 responses',adj=0)
+    text(.7,-1.1+.2,'149299 rewards, 3132940 responses',adj=0)
   }
 }
 

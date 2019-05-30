@@ -20,12 +20,12 @@ unobserved <- c('beta1','beta0','err',
                 'beta1_prior','beta0_prior')
 write('
 model{
-  beta1_prior ~ dnorm(1,10)
+  beta1_prior ~ dnorm(1,1)T(0,)
   beta0_prior ~ dnorm(0,1)
   # err_prior ~ dgamma(0.001,0.001)
   
   for(b in 1:n_brds){
-    beta1[b] ~ dnorm(1,10)
+    beta1[b] ~ dnorm(1,1)T(0,)
     beta0[b] ~ dnorm(0,1)
     err[b] ~ dgamma(0.001,0.001)
   }
@@ -48,3 +48,4 @@ inference <-jags(
   n.thin=4, 
   DIC=T) 
 nds <- inference$BUGSoutput$sims.list
+save(nds,file='matching_jags.RData')

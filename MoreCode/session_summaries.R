@@ -39,6 +39,17 @@
 # setwd('~/Documents/Research/JAPE/ConcurrentData/')
 # write.csv(sessions,file='session_summary.csv',row.names = F)
 
+
+
+
+
+
+
+
+
+
+
+
 rm(list=ls())
 setwd('~/Documents/Research/JAPE/ConcurrentData/')
 sessions <- read.csv('session_summary.csv',stringsAsFactors = F)
