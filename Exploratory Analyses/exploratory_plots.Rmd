@@ -1,0 +1,41 @@
+```{r}
+rm(list=ls())
+by_quarter <- read.csv('pigeons_by_quarter.csv')
+by_session <- read.csv('pigeons_by_session.csv')
+by_quarter <- subset(by_quarter,dynamic_session==F)
+by_session <- subset(by_session,dynamic_session==F)
+```
+```{r,fig.width=8.5,fig.height=9.5,fig.align='center'}
+birds <- c('p004','p054','p138','p510','p530','p736')
+sessions <- 1:180
+layout(matrix(1:35,ncol=5,byrow=T))
+par(mar=rep(0,4))
+for(bb in birds){
+	sess_dta <- subset(by_session,bird==bb)
+	brd_dta <- subset(by_quarter,bird==bb)
+	for(qq in unique(by_quarter$quarter)){
+		qrt_dta <- subset(by_quarter,bird==bb&quarter==qq)
+		plot(log(brd_dta$reinf_left/brd_dta$reinf_right),
+			log(brd_dta$resp_left/brd_dta$resp_right),
+			xlim=c(-5,6),ylim=c(-6,6),col='gray')
+		points(log(qrt_dta$reinf_left/qrt_dta$reinf_right),
+			log(qrt_dta$resp_left/qrt_dta$resp_right),
+			xlim=c(-6,6),ylim=c(-6,6),col=qrt_dta$quarter)
+		abline(0,1,lty='22')
+	}
+	plot(log(sess_dta$reinf_left/sess_dta$reinf_right),
+		log(sess_dta$resp_left/sess_dta$resp_right),
+		xlim=c(-6,6),ylim=c(-6,6),col='gray')
+	abline(0,1,lty='22')
+}
+for(qq in unique(by_quarter$quarter)){
+	qrt_dta <- subset(by_quarter,quarter==qq)
+		plot(log(by_quarter$reinf_left/by_quarter$reinf_right),
+			log(by_quarter$resp_left/by_quarter$resp_right),
+			xlim=c(-5,6),ylim=c(-6,6),col='gray')
+		points(log(qrt_dta$reinf_left/qrt_dta$reinf_right),
+			log(qrt_dta$resp_left/qrt_dta$resp_right),
+			xlim=c(-6,6),ylim=c(-6,6),col=qrt_dta$quarter)
+	abline(0,1,lty='22')
+}
+```

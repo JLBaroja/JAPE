@@ -1,0 +1,66 @@
+```{r}
+rm(list=ls())
+birds <- c('p004','p054','p138','p510','p530','p736')
+sessions <- 1:180
+#sessions <- 1:10
+by_quarter <- NULL
+by_session <- NULL
+#qrtr_lims <- seq(20,60,20)
+qrtr_lims <- seq(15,60,15)
+qrt_str <- (qrtr_lims-15)*60
+qrt_end <- qrtr_lims*60
+for(bb in birds){
+	for(ss in sessions){
+		sess_dta <- read.csv(paste(c('../ConcurrentData/CSV files/',
+			bb,
+			's',sprintf('%02d',ss),
+			'.csv'),collapse=''))
+				med <- unique(sess_dta$med_notation_file)
+				dynamic <- F
+				if(length(unique(strsplit(med,split='_')[[1]][3:4]))==2){dynamic <- T}
+				by_session <- rbind(by_session,
+					data.frame(
+						bird=bb,session=ss,
+						dynamic_session=dynamic,
+				#		quarter=qq,
+				#		quarter_start=qrt_str[qq],
+				#		quarter_end=qrt_end[qq],
+						session_duration_sec=max(sess_dta$session_time_sec),
+						resp_left=sum(sess_dta$event=='response_left_key'),
+						resp_right=sum(sess_dta$event=='response_right_key'),
+						reinf_left=sum(sess_dta$event=='feeder_on_left'),
+						reinf_right=sum(sess_dta$event=='feeder_on_right')
+						))
+		for(qq in 1:length(qrtr_lims)){
+		qrt_dta <- subset(sess_dta,
+			session_time_sec>qrt_str[qq]&session_time_sec<=qrt_end[qq])
+			if(nrow(qrt_dta)>0){
+				by_quarter <- rbind(by_quarter,
+					data.frame(
+						bird=bb,session=ss,
+						dynamic_session=dynamic,
+						quarter=qq,
+						quarter_start=qrt_str[qq],
+						quarter_end=qrt_end[qq],
+						session_duration_sec=max(sess_dta$session_time_sec),
+						resp_left=sum(qrt_dta$event=='response_left_key'),
+						resp_right=sum(qrt_dta$event=='response_right_key'),
+						reinf_left=sum(qrt_dta$event=='feeder_on_left'),
+						reinf_right=sum(qrt_dta$event=='feeder_on_right')
+						))
+			}
+		}
+	}
+}
+by_quarter$bird_num <- as.integer(factor(by_quarter$bird))
+by_session$bird_num <- as.integer(factor(by_session$bird))
+write.csv(by_quarter,file='pigeons_by_quarter.csv',row.names=F)
+write.csv(by_session,file='pigeons_by_session.csv',row.names=F)
+```
+```{r,fig.width=6.5,fig.height=6.5,fig.align='center'}
+plot(log(by_quarter$reinf_left/by_quarter$reinf_right),
+	log(by_quarter$resp_left/by_quarter$resp_right),
+	xlim=c(-6,6),ylim=c(-6,6),col=by_quarter$quarter)
+abline(0,1,lty='22')
+```
+
